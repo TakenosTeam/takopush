@@ -1,0 +1,18 @@
+{
+  "name": "Takenos",
+  "short_name": "Takenos",
+  "description": "Plataforma de influencers Takenos",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff7fc",
+  "theme_color": "#6d23f9",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/takenos-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

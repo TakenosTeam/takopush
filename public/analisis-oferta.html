@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#a599a8",
+              "secondary-fixed": "#ffdbd1",
+              "tertiary-fixed-dim": "#d6c9ee",
+              "on-primary-fixed-variant": "#5200c9",
+              "surface-bright": "#fff7fc",
+              "error-dim": "#770326",
+              "on-tertiary-fixed-variant": "#5d5372",
+              "outline": "#86758d",
+              "on-secondary-fixed-variant": "#ab2d00",
+              "surface-container-highest": "#f0dcf7",
+              "tertiary": "#645a7a",
+              "surface-tint": "#6d23f9",
+              "on-primary-fixed": "#30007c",
+              "primary": "#6d23f9",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed": "#791e00",
+              "inverse-primary": "#9d79ff",
+              "on-background": "#3b2d42",
+              "primary-fixed-dim": "#bda6ff",
+              "secondary-dim": "#9c2900",
+              "on-error-container": "#68001f",
+              "surface-container-high": "#f5e2fb",
+              "outline-variant": "#beacc6",
+              "tertiary-fixed": "#e4d7fd",
+              "on-secondary": "#fff7f5",
+              "error": "#ac3149",
+              "tertiary-dim": "#584e6d",
+              "surface-dim": "#e9d3f1",
+              "on-error": "#fff7f7",
+              "error-container": "#f76a80",
+              "primary-container": "#cab6ff",
+              "on-tertiary": "#fdf7ff",
+              "on-secondary-container": "#9a2800",
+              "primary-dim": "#6100eb",
+              "secondary": "#b12f00",
+              "inverse-surface": "#120c16",
+              "on-primary-container": "#4700b2",
+              "surface-container": "#fae8fe",
+              "on-tertiary-fixed": "#403755",
+              "on-tertiary-container": "#534968",
+              "surface": "#fff7fc",
+              "tertiary-container": "#e4d7fd",
+              "secondary-container": "#ffdbd1",
+              "on-surface": "#3b2d42",
+              "primary-fixed": "#cab6ff",
+              "surface-variant": "#f0dcf7",
+              "on-primary": "#fcf5ff",
+              "surface-container-low": "#fdefff",
+              "secondary-fixed-dim": "#ffc8b9",
+              "on-surface-variant": "#695a70",
+              "background": "#fff7fc"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pixel-grid {
+            background-image: radial-gradient(circle, #cab6ff 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#6d23f9] hover:bg-[#f0dcf7] p-2 rounded-xl transition-colors cursor-pointer" data-icon="menu">menu</span>
+<span class="text-2xl font-black text-[#6d23f9] italic font-headline tracking-tight">Takenos</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#3b2d42] hover:bg-[#f0dcf7] p-2 rounded-xl transition-colors cursor-pointer" data-icon="notifications">notifications</span>
+</div>
+</nav>
+<main class="pt-24 pb-32 px-6 max-w-lg mx-auto min-h-screen relative overflow-hidden">
+<!-- Background Decorative Pixel Pattern -->
+<div class="absolute top-0 left-0 w-full h-64 pixel-grid opacity-20 pointer-events-none -z-10"></div>
+<!-- Scanning Section (Upper Focus) -->
+<section class="text-center mb-12">
+<div class="relative inline-flex items-center justify-center mb-8">
+<!-- Circular Progress / Scanning Animation Representation -->
+<div class="w-32 h-32 rounded-full border-4 border-surface-container-highest flex items-center justify-center relative">
+<div class="absolute inset-0 rounded-full border-t-4 border-primary animate-spin opacity-60"></div>
+<span class="material-symbols-outlined text-primary text-5xl" data-icon="insights" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<!-- Floating status bits -->
+<div class="absolute -top-2 -right-4 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-3 py-1 rounded-full shadow-sm font-label uppercase tracking-wider">Vivo</div>
+</div>
+<h1 class="font-headline font-bold text-2xl tracking-tight text-on-background mb-3">Escaneando...</h1>
+<p class="text-on-surface-variant text-sm leading-relaxed max-w-xs mx-auto">
+                Evaluando la calidad del contenido y los patrones de participación de la audiencia en tiempo real.
+            </p>
+</section>
+<!-- Analysis Results Bento Card -->
+<div class="bg-surface-container-low rounded-[2rem] p-6 shadow-[0_12px_32px_rgba(59,45,66,0.04)] relative mb-8 overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div class="flex items-center justify-between mb-8">
+<div>
+<span class="text-secondary font-label font-bold text-[10px] uppercase tracking-[0.2em] block mb-1">Métricas Clave</span>
+<h2 class="font-headline font-bold text-xl text-on-background">Análisis de Perfil</h2>
+</div>
+<div class="bg-surface-container-highest p-3 rounded-2xl">
+<span class="material-symbols-outlined text-primary" data-icon="query_stats">query_stats</span>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Stat 1 -->
+<div class="bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
+<span class="text-on-surface-variant text-[11px] font-medium block mb-2 font-label">Tasa de engagement</span>
+<div class="flex items-end gap-1">
+<span class="text-2xl font-headline font-bold text-on-background">4.8%</span>
+<span class="material-symbols-outlined text-green-600 text-lg pb-1" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
+<span class="text-on-surface-variant text-[11px] font-medium block mb-2 font-label">Alcance</span>
+<div class="flex items-end gap-1">
+<span class="text-2xl font-headline font-bold text-on-background">12.4k</span>
+<span class="text-on-surface-variant text-[10px] pb-1 font-medium">/semana</span>
+</div>
+</div>
+</div>
+</div>
+<!-- The Offer Section -->
+<section class="bg-primary p-8 rounded-[2.5rem] text-on-primary shadow-xl relative overflow-hidden">
+<!-- Decorative gradient -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary-dim opacity-90"></div>
+<div class="relative z-10 text-center">
+<span class="font-label font-bold text-[11px] uppercase tracking-[0.3em] opacity-80 mb-2 block">TU OFERTA</span>
+<div class="flex flex-col items-center justify-center">
+<div class="flex items-start justify-center gap-1 mb-2">
+<span class="text-3xl font-headline font-medium mt-3">$</span>
+<span class="text-7xl font-headline font-extrabold tracking-tighter">12.50</span>
+</div>
+<p class="text-on-primary/60 text-xs font-medium">Calculado basado en tu huella digital</p>
+</div>
+</div>
+<!-- Detail items -->
+<div class="relative z-10 mt-8 space-y-3">
+<div class="flex items-center justify-between bg-white/10 backdrop-blur-md p-4 rounded-2xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="verified">verified</span>
+<span class="text-sm font-medium">Contenido Verificado</span>
+</div>
+<span class="material-symbols-outlined text-sm opacity-60" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex items-center justify-between bg-white/10 backdrop-blur-md p-4 rounded-2xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="history_edu">history_edu</span>
+<span class="text-sm font-medium">Historial de Campañas</span>
+</div>
+<span class="material-symbols-outlined text-sm opacity-60" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</section>
+<!-- Action Area -->
+<div class="mt-10 px-4">
+<button class="w-full bg-primary text-on-primary py-5 rounded-[1.5rem] font-headline font-bold text-lg shadow-lg active:scale-95 transition-all duration-200 flex items-center justify-center gap-3">
+                Aceptar y Continuar
+                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-full mt-4 text-on-surface-variant font-label text-sm font-medium py-3 hover:text-on-surface transition-colors">
+                Ver desglose detallado
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#fff7fc]/80 backdrop-blur-xl z-50 rounded-t-[2rem] shadow-[0_-8px_24px_rgba(59,45,66,0.04)]">
+<div class="flex flex-col items-center justify-center text-[#3b2d42]/60 px-5 py-2">
+<span class="material-symbols-outlined mb-1" data-icon="hub">hub</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] uppercase tracking-widest">Inicio</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#f0dcf7] text-[#6d23f9] rounded-2xl px-5 py-2 scale-105">
+<span class="material-symbols-outlined mb-1" data-icon="campaign" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] uppercase tracking-widest">Campa\u00f1as</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#3b2d42]/60 px-5 py-2">
+<span class="material-symbols-outlined mb-1" data-icon="add_circle">add_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] uppercase tracking-widest">Subir</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#3b2d42]/60 px-5 py-2">
+<span class="material-symbols-outlined mb-1" data-icon="payments">payments</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] uppercase tracking-widest">Ganancias</span>
+</div>
+</nav>
+</body></html>

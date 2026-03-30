@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Activos y Guion de Campaña | Takenos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Plus+Jakarta+Sans:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#a599a8",
+              "secondary-fixed": "#ffdbd1",
+              "tertiary-fixed-dim": "#d6c9ee",
+              "on-primary-fixed-variant": "#5200c9",
+              "surface-bright": "#fff7fc",
+              "error-dim": "#770326",
+              "on-tertiary-fixed-variant": "#5d5372",
+              "outline": "#86758d",
+              "on-secondary-fixed-variant": "#ab2d00",
+              "surface-container-highest": "#f0dcf7",
+              "tertiary": "#645a7a",
+              "surface-tint": "#6d23f9",
+              "on-primary-fixed": "#30007c",
+              "primary": "#6d23f9",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed": "#791e00",
+              "inverse-primary": "#9d79ff",
+              "on-background": "#3b2d42",
+              "primary-fixed-dim": "#bda6ff",
+              "secondary-dim": "#9c2900",
+              "on-error-container": "#68001f",
+              "surface-container-high": "#f5e2fb",
+              "outline-variant": "#beacc6",
+              "tertiary-fixed": "#e4d7fd",
+              "on-secondary": "#fff7f5",
+              "error": "#ac3149",
+              "tertiary-dim": "#584e6d",
+              "surface-dim": "#e9d3f1",
+              "on-error": "#fff7f7",
+              "error-container": "#f76a80",
+              "primary-container": "#cab6ff",
+              "on-tertiary": "#fdf7ff",
+              "on-secondary-container": "#9a2800",
+              "primary-dim": "#6100eb",
+              "secondary": "#b12f00",
+              "inverse-surface": "#120c16",
+              "on-primary-container": "#4700b2",
+              "surface-container": "#fae8fe",
+              "on-tertiary-fixed": "#403755",
+              "on-tertiary-container": "#534968",
+              "surface": "#fff7fc",
+              "tertiary-container": "#e4d7fd",
+              "secondary-container": "#ffdbd1",
+              "on-surface": "#3b2d42",
+              "primary-fixed": "#cab6ff",
+              "surface-variant": "#f0dcf7",
+              "on-primary": "#fcf5ff",
+              "surface-container-low": "#fdefff",
+              "secondary-fixed-dim": "#ffc8b9",
+              "on-surface-variant": "#695a70",
+              "background": "#fff7fc"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .pixel-pattern {
+            background-image: radial-gradient(#6d23f9 1px, transparent 1px);
+            background-size: 16px 16px;
+            opacity: 0.1;
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 dark:bg-[#1a161a]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#6d23f9] dark:text-[#cab6ff] hover:bg-[#f0dcf7] dark:hover:bg-[#3b2d42] transition-colors p-2 rounded-full active:scale-95 duration-200" data-icon="menu">menu</button>
+<span class="text-2xl font-black text-[#6d23f9] dark:text-[#cab6ff] italic font-['Space_Grotesk'] tracking-tight">Takenos</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="material-symbols-outlined text-[#6d23f9] dark:text-[#cab6ff] hover:bg-[#f0dcf7] dark:hover:bg-[#3b2d42] transition-colors p-2 rounded-full active:scale-95 duration-200" data-icon="notifications">notifications</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-4 md:px-8 max-w-6xl mx-auto">
+<!-- Hero Section with Pixel Pattern -->
+<section class="relative mb-12 overflow-hidden rounded-[2.5rem] bg-surface-container-low p-8 md:p-12">
+<div class="absolute inset-0 pixel-pattern pointer-events-none"></div>
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+<div class="space-y-2">
+<span class="font-label text-secondary text-[0.6875rem] font-bold uppercase tracking-[0.2em]">Campaña Activa</span>
+<h1 class="font-headline text-4xl md:text-5xl font-bold tracking-tight text-on-background">Verano Tech 2024</h1>
+<p class="text-on-surface-variant max-w-md">Prepara tu contenido con los mejores activos visuales y un guion optimizado para conversión.</p>
+</div>
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="upload">upload</span>
+                    Subir Contenido
+                </button>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Media Assets -->
+<div class="lg:col-span-7 space-y-8">
+<div class="bg-surface-container rounded-[2rem] p-6 space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="font-headline text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="folder_special">folder_special</span>
+                            Recursos de la Campaña
+                        </h2>
+<button class="text-primary font-bold text-sm flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                            Descargar todo
+                        </button>
+</div>
+<!-- Bento Grid for Assets -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="aspect-[9/16] rounded-2xl overflow-hidden bg-surface-container-highest relative group">
+<img class="w-full h-full object-cover" data-alt="high-quality smartphone screen showing a fintech app interface with neon purple gradients and modern typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb0A-qTwT33RlEaG7H-ht94tx_mmRA5PrLUyY9BQxer93EdxQTpmBapG8Enrd-Vje2x9aGhMsuRBKZ8aWM_Dgi6cKrBSCMjHxeFkcAUk5st0f0oQWor8WBQqV4492bUUDZImJUgg-VfH6NjLIUtIcu4y3xzpf-jW67qYtuMxzUcyhxryZ6eIh7jDwdt3v037QW1hpJykDV1ICNQ1VusTFXGFOWoHNkDu76h8q5OZ2dFN3r1vbX23vRstCQZUvgsa_nt_T2VcNKcgJK"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+<button class="p-2 bg-white/20 backdrop-blur-md rounded-full text-white"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="p-2 bg-white/20 backdrop-blur-md rounded-full text-white"><span class="material-symbols-outlined" data-icon="download">download</span></button>
+</div>
+</div>
+<div class="aspect-[9/16] rounded-2xl overflow-hidden bg-surface-container-highest relative group">
+<img class="w-full h-full object-cover" data-alt="professional content creator studio setup with ring light, purple ambient lighting, and high-end camera equipment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCbZfipv0c718dtzi1Ie31zNz7EsMFjll17LfZTRURkZFWiK3LyYObdhn0Wx7D7AtfXjlwbpRb0Hul255mauCzpuuemRcRbe5RZjruXXKiAO4PP61UtzGVE9UnAsTzyE69whZShKSuVfil3e3BdhGqj7BXnmPSc9uLekRNCVqWPlVzJTGq_g1OuZuzJLmYslMmTVSoj0rM8hJYxIH1iR37vryovPUtQoEwJyzrbgXBBRocferC3RWCyi7IOBxbFDL0R7rJHc1VaiG7"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+<button class="p-2 bg-white/20 backdrop-blur-md rounded-full text-white"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="p-2 bg-white/20 backdrop-blur-md rounded-full text-white"><span class="material-symbols-outlined" data-icon="download">download</span></button>
+</div>
+</div>
+<div class="aspect-[9/16] rounded-2xl overflow-hidden bg-surface-container-highest flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/30 text-outline p-4 text-center cursor-pointer hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-4xl mb-2" data-icon="add_circle">add_circle</span>
+<span class="text-xs font-bold uppercase tracking-wider">Ver más activos</span>
+</div>
+</div>
+</div>
+<div class="bg-secondary-container/30 rounded-[2rem] p-6 border border-secondary-container">
+<div class="flex items-start gap-4">
+<div class="p-3 bg-secondary-container rounded-2xl text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+</div>
+<div>
+<h3 class="font-bold text-on-secondary-container">Consejo Pro</h3>
+<p class="text-sm text-on-secondary-container/80 mt-1 leading-relaxed">Utiliza los activos visuales en los primeros 3 segundos de tu video para captar la atención. El color morado de Takenos ayuda a la retención visual.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Script Content -->
+<div class="lg:col-span-5 space-y-6">
+<div class="bg-surface-container rounded-[2rem] p-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+                            Tu Guion
+                        </h2>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container-highest rounded-lg transition-colors text-on-surface-variant" title="Personalizar">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+</button>
+<button class="p-2 hover:bg-surface-container-highest rounded-lg transition-colors text-on-surface-variant" title="Copiar">
+<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Script Sections -->
+<div class="space-y-8">
+<!-- Hook -->
+<div class="relative pl-6 border-l-2 border-primary/20">
+<span class="absolute -left-1.5 top-0 w-3 h-3 bg-primary rounded-full"></span>
+<label class="font-label text-[0.6875rem] font-bold text-primary uppercase tracking-widest block mb-2">Hook (El Gancho)</label>
+<p class="text-on-surface leading-relaxed italic">"¿Cansado de que las comisiones se coman tus ganancias de freelance? Mira esto..."</p>
+</div>
+<!-- Body -->
+<div class="relative pl-6 border-l-2 border-primary/20">
+<span class="absolute -left-1.5 top-0 w-3 h-3 bg-primary-container rounded-full"></span>
+<label class="font-label text-[0.6875rem] font-bold text-primary uppercase tracking-widest block mb-2">Body (Desarrollo)</label>
+<p class="text-on-surface leading-relaxed">
+                                "Con Takenos, recibo mis pagos en dólares y los retiro a mi moneda local en minutos. Sin vueltas, sin letra chica y con la mejor tasa del mercado."
+                            </p>
+</div>
+<!-- CTA -->
+<div class="relative pl-6 border-l-2 border-primary/20">
+<span class="absolute -left-1.5 top-0 w-3 h-3 bg-secondary rounded-full"></span>
+<label class="font-label text-[0.6875rem] font-bold text-secondary uppercase tracking-widest block mb-2">CTA (Llamado a la acción)</label>
+<p class="text-on-surface leading-relaxed font-bold">
+                                "Hacé clic en el link de mi bio y empezá a cobrar como un profesional."
+                            </p>
+</div>
+</div>
+<div class="mt-10 pt-8 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="text-xs text-on-surface-variant flex items-center gap-1 italic">
+<span class="material-symbols-outlined text-xs" data-icon="timer">timer</span>
+                            Lectura estimada: 45 seg.
+                        </span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">Optimizado para TikTok</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#fff7fc]/80 dark:bg-[#1a161a]/80 backdrop-blur-xl z-50 rounded-t-[2rem] shadow-[0_-8px_24px_rgba(59,45,66,0.04)] md:hidden">
+<a class="flex flex-col items-center justify-center text-[#3b2d42]/60 dark:text-[#beacc6]/60 px-5 py-2 hover:text-[#b12f00] transition-transform active:scale-90 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] uppercase tracking-widest mt-1">Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#f0dcf7] dark:bg-[#3b2d42] text-[#6d23f9] dark:text-[#cab6ff] rounded-2xl px-5 py-2 scale-105 active:scale-90 transition-transform duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="campaign" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] uppercase tracking-widest mt-1">Campañas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#3b2d42]/60 dark:text-[#beacc6]/60 px-5 py-2 hover:text-[#b12f00] transition-transform active:scale-90 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] uppercase tracking-widest mt-1">Subir</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#3b2d42]/60 dark:text-[#beacc6]/60 px-5 py-2 hover:text-[#b12f00] transition-transform active:scale-90 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] uppercase tracking-widest mt-1">Ganancias</span>
+</a>
+</nav>
+</body></html>

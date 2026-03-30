@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#6d23f9"/>
+<title>Takenos</title>
+<link rel="manifest" href="/manifest.json"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.getphyllo.com/connect/v2/phyllo-connect.js"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "inverse-on-surface": "#a599a8", "secondary-fixed": "#ffdbd1",
+          "tertiary-fixed-dim": "#d6c9ee", "on-primary-fixed-variant": "#5200c9",
+          "surface-bright": "#fff7fc", "error-dim": "#770326",
+          "on-tertiary-fixed-variant": "#5d5372", "outline": "#86758d",
+          "on-secondary-fixed-variant": "#ab2d00", "surface-container-highest": "#f0dcf7",
+          "tertiary": "#645a7a", "surface-tint": "#6d23f9", "on-primary-fixed": "#30007c",
+          "primary": "#6d23f9", "surface-container-lowest": "#ffffff",
+          "on-secondary-fixed": "#791e00", "inverse-primary": "#9d79ff",
+          "on-background": "#3b2d42", "primary-fixed-dim": "#bda6ff",
+          "secondary-dim": "#9c2900", "on-error-container": "#68001f",
+          "surface-container-high": "#f5e2fb", "outline-variant": "#beacc6",
+          "tertiary-fixed": "#e4d7fd", "on-secondary": "#fff7f5", "error": "#ac3149",
+          "tertiary-dim": "#584e6d", "surface-dim": "#e9d3f1", "on-error": "#fff7f7",
+          "error-container": "#f76a80", "primary-container": "#cab6ff",
+          "on-tertiary": "#fdf7ff", "on-secondary-container": "#9a2800",
+          "primary-dim": "#6100eb", "secondary": "#b12f00", "inverse-surface": "#120c16",
+          "on-primary-container": "#4700b2", "surface-container": "#fae8fe",
+          "on-tertiary-fixed": "#403755", "on-tertiary-container": "#534968",
+          "surface": "#fff7fc", "tertiary-container": "#e4d7fd",
+          "secondary-container": "#ffdbd1", "on-surface": "#3b2d42",
+          "primary-fixed": "#cab6ff", "surface-variant": "#f0dcf7",
+          "on-primary": "#fcf5ff", "surface-container-low": "#fdefff",
+          "secondary-fixed-dim": "#ffc8b9", "on-surface-variant": "#695a70",
+          "background": "#fff7fc"
+        },
+        fontFamily: { "headline": ["Space Grotesk"], "body": ["Plus Jakarta Sans"], "label": ["Plus Jakarta Sans"] },
+        borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .pixel-pattern { background-image: radial-gradient(circle, currentColor 1px, transparent 1px); background-size: 16px 16px; }
+  .pixel-grid { background-image: radial-gradient(circle, #cab6ff 1px, transparent 1px); background-size: 24px 24px; }
+  .glass-card { backdrop-filter: blur(12px); }
+  body { min-height: 100dvh; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, .font-headline { font-family: 'Space Grotesk', sans-serif; }
+  .screen { display: none !important; }
+  .screen.active { display: block !important; }
+  .fade-in { animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #3b2d42; color: white; padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
+  .toast.show { opacity: 1; }
+  .spinner { border: 3px solid rgba(109,35,249,0.2); border-top-color: #6d23f9; border-radius: 50%; width: 20px; height: 20px; animation: spin 0.8s linear infinite; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body class="bg-background text-on-background">
+
+<!-- ─── TOAST ──────────────────────────────────────────────────────────────── -->
+<div id="toast" class="toast"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 1 · CONECTAR PERFIL                                               -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="screen-1" class="screen active fade-in min-h-screen">
+  <main class="min-h-screen pt-10 pb-32 px-6 max-w-xl mx-auto">
+
+    <!-- HERO HEADER -->
+    <section class="relative overflow-hidden rounded-[2rem] mb-7" style="background: linear-gradient(135deg, #3b0096 0%, #6d23f9 50%, #a855f7 100%);">
+
+      <!-- Imagen de fondo con overlay -->
+      <div class="absolute inset-0 opacity-15" style="background-image:url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&q=80');background-size:cover;background-position:center;"></div>
+
+      <!-- Orbes decorativos -->
+      <div class="absolute -top-10 -right-10 w-48 h-48 rounded-full opacity-20" style="background:radial-gradient(circle, #fff 0%, transparent 70%);"></div>
+      <div class="absolute -bottom-8 -left-8 w-36 h-36 rounded-full opacity-15" style="background:radial-gradient(circle, #cab6ff 0%, transparent 70%);"></div>
+
+      <div class="relative z-10 p-7 space-y-5">
+
+        <!-- Logo + badge -->
+        <div class="flex items-center justify-between">
+          <img src="/takenos-logo.svg" alt="Takenos" class="h-8 w-auto object-contain"/>
+          <span class="text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full" style="background:rgba(255,255,255,0.2);color:#fff;">✦ Exclusivo</span>
+        </div>
+
+        <!-- Título + dinero highlight -->
+        <div class="space-y-3">
+          <div class="inline-flex items-center gap-2 bg-white/15 rounded-2xl px-4 py-2">
+            <span class="text-2xl">💸</span>
+            <span class="text-white font-bold text-sm">Hasta $100 USD por video</span>
+          </div>
+          <h1 class="font-headline text-3xl font-black text-white leading-tight">
+            ¡Monetizá tu<br>audiencia hoy!
+          </h1>
+          <p class="text-white/75 text-sm leading-relaxed">
+            Sumate como influencer de Takenos y cobrá en tu cuenta por cada reel que publiques.
+          </p>
+        </div>
+
+        <!-- Pasos en pills horizontales -->
+        <div class="space-y-2.5">
+          <div class="flex gap-3 items-center bg-white/10 rounded-2xl px-4 py-3">
+            <span class="text-xl flex-shrink-0">🔍</span>
+            <div>
+              <p class="text-white font-bold text-sm leading-tight">Analizá tu perfil</p>
+              <p class="text-white/60 text-xs">Ingresá tu @usuario y recibí tu oferta al instante.</p>
+            </div>
+          </div>
+          <div class="flex gap-3 items-center bg-white/10 rounded-2xl px-4 py-3">
+            <span class="text-xl flex-shrink-0">🎬</span>
+            <div>
+              <p class="text-white font-bold text-sm leading-tight">Grabá tu Reel o TikTok</p>
+              <p class="text-white/60 text-xs">Te damos el logo y el guion — es fácil y rápido.</p>
+            </div>
+          </div>
+          <div class="flex gap-3 items-center bg-white/10 rounded-2xl px-4 py-3">
+            <span class="text-xl flex-shrink-0">💰</span>
+            <div>
+              <p class="text-white font-bold text-sm leading-tight">Envianos el link y cobrás</p>
+              <p class="text-white/60 text-xs">El dinero llega directo a tu cuenta Takenos.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="space-y-5">
+      <!-- Nombre -->
+      <div class="bg-surface-container-low rounded-[2rem] p-6 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
+        <label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-1">Tu Taketag</label>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="flex items-center flex-1 bg-surface-container-lowest rounded-xl p-1 focus-within:ring-2 focus-within:ring-primary/20">
+            <span class="pl-4 pr-1 text-primary font-black text-base select-none">@</span>
+            <input id="input-name" class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium placeholder:text-outline-variant py-3 outline-none" placeholder="tu.taketag" type="text" oninput="onTaketagInput(this.value)"/>
+          </div>
+          <button id="btn-save-taketag" onclick="saveTaketag()" class="flex-shrink-0 w-11 h-11 rounded-xl bg-surface-container-highest flex items-center justify-center active:scale-90 transition-all" title="Guardar taketag">
+            <span id="save-taketag-icon" class="material-symbols-outlined text-on-surface-variant text-xl">bookmark</span>
+          </button>
+        </div>
+        <p class="text-[11px] text-on-surface-variant leading-relaxed ml-1">
+          <span class="material-symbols-outlined text-[13px] align-middle mr-0.5">info</span>
+          Lo encontrás en la app de Takenos, dentro de tu perfil, debajo de tu nombre.
+        </p>
+      </div>
+
+      <!-- Instagram Card -->
+      <div class="bg-surface-container-low rounded-[2rem] p-6 shadow-[0_12px_32px_rgba(59,45,66,0.06)] overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full pointer-events-none"></div>
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-primary text-3xl">photo_camera</span>
+          </div>
+          <div>
+            <h3 class="font-headline font-bold text-lg">Instagram</h3>
+            <span id="ig-status-label" class="text-[10px] font-bold uppercase tracking-widest text-secondary">No vinculado</span>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="relative">
+            <label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-1">Nombre de usuario</label>
+            <div class="flex items-center bg-surface-container-lowest rounded-xl p-1 focus-within:ring-2 focus-within:ring-primary/20">
+              <span class="pl-4 pr-1 text-on-surface-variant font-medium">@</span>
+              <input id="input-username" class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium placeholder:text-outline-variant py-3 outline-none" placeholder="tu_usuario" type="text"/>
+            </div>
+          </div>
+          <p class="flex items-center gap-1.5 text-[11px] text-on-surface-variant bg-surface-container-highest rounded-xl px-3 py-2">
+            <span class="material-symbols-outlined text-[14px] flex-shrink-0">lock_open</span>
+            Solo funciona con cuentas <strong>públicas</strong>. Las cuentas privadas no pueden ser analizadas.
+          </p>
+          <button id="btn-connect-ig" onclick="connectInstagram()" class="w-full bg-primary text-on-primary font-headline font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+            <span id="btn-connect-ig-text">Analizar perfil</span>
+            <span class="material-symbols-outlined text-sm">search</span>
+          </button>
+          <p id="connect-status" class="hidden text-center text-xs font-medium text-on-surface-variant mt-2"></p>
+        </div>
+      </div>
+
+      <!-- TikTok Card -->
+      <div class="bg-surface-container rounded-[2rem] p-6 overflow-hidden relative border border-outline-variant/10">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 bg-on-background rounded-2xl flex items-center justify-center">
+            <span class="material-symbols-outlined text-surface text-3xl">music_note</span>
+          </div>
+          <div>
+            <h3 class="font-headline font-bold text-lg">TikTok</h3>
+            <span id="tiktok-status" class="text-[10px] font-bold uppercase tracking-widest text-error">No vinculado</span>
+          </div>
+        </div>
+        <button id="btn-tiktok" onclick="connectTikTok()" class="w-full bg-on-background text-surface font-headline font-bold py-4 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform">
+          <span id="btn-tiktok-text">Vincular TikTok</span>
+          <span class="material-symbols-outlined text-sm">music_note</span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="mt-10 rounded-[2rem] overflow-hidden relative h-44">
+      <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnQLbFm8el10JQXgbvOHIkmAWIweQaqd9RmDTz4U102EKFrMNaGHe45Lo9UimEf0ZkIJQwbMZFaR_IzJwAOKuDIKSBwYMqdxiFrd5yMU_NQzygJ-UE-gjpxp1pI_QekpSIF_l7AembpbxUlsfj9mGGipEoEzfltH1PebTnbZarhV14yd6JoWthh5-5Oxar_c08hK43EDYhe4dcy6IkpXn7BaGmu_jsi-Kg_n14LT8o0wSLfohyzEAErmvMfKK8tFeTzE5aUI-Od0RW" alt="Creadores Takenos"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-on-background/80 to-transparent flex items-end p-6">
+        <p class="text-surface font-headline font-bold text-lg leading-tight">Únete a más de <span class="text-secondary-fixed">5,000+</span> creadores activos.</p>
+      </div>
+    </div>
+  </main>
+
+  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#fff7fc]/80 backdrop-blur-xl z-50 rounded-t-[2rem] shadow-[0_-8px_24px_rgba(59,45,66,0.04)]">
+    <div class="flex flex-col items-center bg-[#f0dcf7] text-[#6d23f9] rounded-2xl px-5 py-2"><span class="material-symbols-outlined mb-1" style="font-variation-settings:'FILL' 1;">hub</span><span class="text-[10px] uppercase tracking-widest font-medium">Inicio</span></div>
+    <div onclick="goTo(6)" class="flex flex-col items-center text-[#3b2d42]/60 px-5 py-2 cursor-pointer"><span class="material-symbols-outlined mb-1">payments</span><span class="text-[10px] uppercase tracking-widest font-medium">Ganancias</span></div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 2 · ANÁLISIS Y OFERTA                                             -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="screen-2" class="screen min-h-screen">
+  <nav class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
+    <div class="flex items-center gap-4">
+      <span onclick="goTo(1)" class="material-symbols-outlined text-primary hover:bg-surface-container-highest p-2 rounded-xl cursor-pointer">arrow_back</span>
+      <img src="/Logo takenos- paleta principal_violeta.png" alt="Takenos" class="h-10 w-auto object-contain"/>
+    </div>
+    <span class="material-symbols-outlined text-on-background p-2">notifications</span>
+  </nav>
+
+  <main class="pt-24 pb-32 px-6 max-w-lg mx-auto min-h-screen relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-64 pixel-grid opacity-20 pointer-events-none -z-10"></div>
+
+    <section class="text-center mb-10">
+      <div class="relative inline-flex items-center justify-center mb-6">
+        <div class="w-32 h-32 rounded-full border-4 border-surface-container-highest flex items-center justify-center relative">
+          <div id="scan-spinner" class="absolute inset-0 rounded-full border-t-4 border-primary animate-spin opacity-60"></div>
+          <span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings:'FILL' 1;">insights</span>
+        </div>
+        <div class="absolute -top-2 -right-4 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-3 py-1 rounded-full shadow-sm uppercase tracking-wider">Vivo</div>
+      </div>
+      <h1 id="scan-title" class="font-headline font-bold text-2xl tracking-tight text-on-background mb-1">Escaneando...</h1>
+      <p id="analysis-subtitle" class="text-on-surface-variant text-sm leading-relaxed max-w-xs mx-auto">
+        Evaluando la calidad del contenido y los patrones de participación de la audiencia en tiempo real.
+      </p>
+      <span id="analyzed-user" class="hidden mt-2 inline-block text-xs font-bold text-primary uppercase tracking-widest"></span>
+    </section>
+
+    <!-- Stats -->
+    <div class="bg-surface-container-low rounded-[2rem] p-6 shadow-[0_12px_32px_rgba(59,45,66,0.04)] relative mb-8 overflow-hidden">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="text-secondary font-label font-bold text-[10px] uppercase tracking-[0.2em] block mb-1">Métricas Clave</span>
+          <h2 class="font-headline font-bold text-xl text-on-background">Análisis de Perfil</h2>
+        </div>
+        <div class="bg-surface-container-highest p-3 rounded-2xl">
+          <span class="material-symbols-outlined text-primary">query_stats</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
+          <span class="text-on-surface-variant text-[11px] font-medium block mb-2">Tasa de engagement</span>
+          <div class="flex items-end gap-1">
+            <span id="stat-engagement" class="text-2xl font-headline font-bold text-on-background">—</span>
+            <span class="material-symbols-outlined text-green-600 text-lg pb-1">trending_up</span>
+          </div>
+        </div>
+        <div class="bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
+          <span class="text-on-surface-variant text-[11px] font-medium block mb-2">Seguidores</span>
+          <div class="flex items-end gap-1">
+            <span id="stat-followers" class="text-2xl font-headline font-bold text-on-background">—</span>
+          </div>
+        </div>
+        <div class="bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
+          <span class="text-on-surface-variant text-[11px] font-medium block mb-2">Alcance promedio</span>
+          <div class="flex items-end gap-1">
+            <span id="stat-reach" class="text-2xl font-headline font-bold text-on-background">—</span>
+            <span class="text-on-surface-variant text-[10px] pb-1">/sem</span>
+          </div>
+        </div>
+        <div class="bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
+          <span class="text-on-surface-variant text-[11px] font-medium block mb-2">Nicho</span>
+          <span id="stat-niche" class="text-lg font-headline font-bold text-on-background">—</span>
+        </div>
+      </div>
+
+      <!-- AI Summary -->
+      <div id="ai-summary-box" class="hidden mt-4 bg-surface-container-highest/60 rounded-2xl p-4">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-secondary mb-2">Resumen Takenos AI</p>
+        <p id="ai-summary-text" class="text-sm text-on-surface leading-relaxed"></p>
+      </div>
+    </div>
+
+    <!-- Offer -->
+    <section class="bg-primary p-8 rounded-[2.5rem] text-on-primary shadow-xl relative overflow-hidden mb-8">
+      <div class="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary-dim opacity-90"></div>
+      <div class="relative z-10 text-center">
+        <span class="font-label font-bold text-[11px] uppercase tracking-[0.3em] opacity-80 mb-2 block">TU OFERTA</span>
+        <div class="flex items-start justify-center gap-1 mb-2">
+          <span class="text-3xl font-headline font-medium mt-3">$</span>
+          <span id="stat-offer" class="text-7xl font-headline font-extrabold tracking-tighter">—</span>
+        </div>
+        <p class="text-on-primary/60 text-xs font-medium">Calculado basado en tu huella digital</p>
+      </div>
+      <div class="relative z-10 mt-8 space-y-3">
+        <div class="flex items-center justify-between bg-white/10 backdrop-blur-md p-4 rounded-2xl">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary-fixed">verified</span>
+            <span class="text-sm font-medium" id="offer-name">Perfil Conectado</span>
+          </div>
+          <span class="material-symbols-outlined text-sm opacity-60" style="font-variation-settings:'FILL' 1;">check_circle</span>
+        </div>
+        <div class="flex items-center justify-between bg-white/10 backdrop-blur-md p-4 rounded-2xl">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary-fixed">history_edu</span>
+            <span class="text-sm font-medium">Historial de Campañas</span>
+          </div>
+          <span class="material-symbols-outlined text-sm opacity-60" style="font-variation-settings:'FILL' 1;">check_circle</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="px-4">
+      <button id="accept-btn" onclick="goTo(3)" class="w-full bg-primary text-on-primary py-5 rounded-[1.5rem] font-headline font-bold text-lg shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3 opacity-50 pointer-events-none" disabled>
+        Aceptar y Continuar
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+      <button class="w-full mt-4 text-on-surface-variant text-sm font-medium py-3">Ver desglose detallado</button>
+    </div>
+  </main>
+
+  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#fff7fc]/80 backdrop-blur-xl z-50 rounded-t-[2rem] shadow-[0_-8px_24px_rgba(59,45,66,0.04)]">
+    <div onclick="goTo(1)" class="flex flex-col items-center text-[#3b2d42]/60 px-5 py-2 cursor-pointer"><span class="material-symbols-outlined mb-1">hub</span><span class="text-[10px] uppercase tracking-widest font-medium">Inicio</span></div>
+    <div onclick="goTo(6)" class="flex flex-col items-center text-[#3b2d42]/60 px-5 py-2 cursor-pointer"><span class="material-symbols-outlined mb-1">payments</span><span class="text-[10px] uppercase tracking-widest font-medium">Ganancias</span></div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 3 · RECURSOS Y GUION                                              -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="screen-3" class="screen min-h-screen">
+  <header class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
+    <div class="flex items-center gap-4">
+      <span onclick="goTo(2)" class="material-symbols-outlined text-primary hover:bg-surface-container-highest p-2 rounded-full cursor-pointer active:scale-95">arrow_back</span>
+      <img src="/Logo takenos- paleta principal_violeta.png" alt="Takenos" class="h-10 w-auto object-contain"/>
+    </div>
+    <span class="material-symbols-outlined text-primary p-2">notifications</span>
+  </header>
+
+  <main class="pt-20 pb-32 px-4 max-w-lg mx-auto space-y-5">
+    <!-- 1. Nombre campaña + invitación -->
+    <section class="relative overflow-hidden rounded-[2rem] bg-on-background p-6 space-y-3">
+      <div class="absolute inset-0 pixel-pattern opacity-5 pointer-events-none" style="color:#fff"></div>
+      <div class="relative z-10">
+        <span class="font-label text-primary text-[0.6875rem] font-bold uppercase tracking-[0.2em]">Campaña Activa</span>
+        <h1 class="font-headline text-xl font-bold tracking-tight text-surface leading-snug mt-1">Empezá a usar la Takecard en tus compras internacionales</h1>
+      </div>
+      <div class="relative z-10 bg-white/8 rounded-2xl p-4 space-y-1">
+        <p class="text-surface font-bold text-base">🎉 ¡Te invitamos a compartir y ganar!</p>
+        <p class="text-surface/70 text-sm leading-relaxed">Difundí la campaña actual en tu TikTok o Reels y ganá
+          <span id="campaign-reward" class="text-primary font-extrabold text-lg"> $–</span> USD
+          directamente en tu cuenta Takenos.</p>
+      </div>
+    </section>
+
+    <!-- 2. Guion sugerido -->
+    <section class="bg-surface-container rounded-[2rem] p-5 space-y-5">
+      <div class="flex items-center justify-between">
+        <h2 class="font-headline text-base font-bold flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-lg">description</span>
+          Guion sugerido
+        </h2>
+        <div class="flex gap-1">
+          <button onclick="generateScript()" title="Nuevo guion" class="p-2 hover:bg-surface-container-highest rounded-lg transition-colors text-primary">
+            <span class="material-symbols-outlined text-lg">refresh</span>
+          </button>
+          <button onclick="copyScript()" title="Copiar" class="p-2 hover:bg-surface-container-highest rounded-lg transition-colors text-on-surface-variant">
+            <span class="material-symbols-outlined text-lg">content_copy</span>
+          </button>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <div class="relative pl-5 border-l-2 border-primary/30">
+          <span class="absolute -left-1.5 top-0 w-3 h-3 bg-primary rounded-full"></span>
+          <label class="text-[0.6rem] font-bold text-primary uppercase tracking-widest block mb-1">🪝 Hook</label>
+          <p id="script-hook" class="text-on-surface leading-relaxed italic text-sm"></p>
+        </div>
+        <div class="relative pl-5 border-l-2 border-primary/20">
+          <span class="absolute -left-1.5 top-0 w-3 h-3 bg-primary-container rounded-full"></span>
+          <label class="text-[0.6rem] font-bold text-primary uppercase tracking-widest block mb-1">📦 Desarrollo</label>
+          <p id="script-body" class="text-on-surface leading-relaxed text-sm"></p>
+        </div>
+        <div class="relative pl-5 border-l-2 border-secondary/30">
+          <span class="absolute -left-1.5 top-0 w-3 h-3 bg-secondary rounded-full"></span>
+          <label class="text-[0.6rem] font-bold text-secondary uppercase tracking-widest block mb-1">🚀 CTA</label>
+          <p id="script-cta" class="text-on-surface leading-relaxed font-bold text-sm"></p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 pt-1">
+        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+        <span class="text-xs text-on-surface-variant uppercase tracking-tighter font-bold">Optimizado para Reels & TikTok · ~30 seg.</span>
+      </div>
+    </section>
+
+    <!-- 3. Recursos de campaña -->
+    <section class="bg-surface-container rounded-[2rem] p-5 space-y-4">
+      <div>
+        <h2 class="font-headline text-base font-bold flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-lg">folder_special</span>
+          Recursos de la campaña
+        </h2>
+        <p class="text-on-surface-variant text-xs mt-1 leading-relaxed">Tu video <strong class="text-on-surface">debe incluir el logo de Takenos</strong>. La Takecard es opcional pero suma mucho.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <!-- Logo -->
+        <div class="rounded-2xl overflow-hidden bg-black relative group">
+          <img class="w-full object-contain p-4" style="max-height:90px"
+            src="/takenos-logo.svg" alt="Logo Takenos"/>
+          <div class="px-3 pb-2 flex items-center justify-between">
+            <span class="text-[10px] font-bold text-white/50 uppercase tracking-wider">Logo</span>
+            <a href="/takenos-logo.svg" download class="text-white/50 hover:text-white transition-colors">
+              <span class="material-symbols-outlined text-sm">download</span>
+            </a>
+          </div>
+        </div>
+        <!-- Takecard -->
+        <div class="rounded-2xl overflow-hidden bg-surface-container-highest relative group">
+          <img class="w-full object-contain p-3" style="max-height:90px"
+            src="/takecard.png" alt="Takecard"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div style="display:none" class="h-[90px] items-center justify-center">
+            <span class="material-symbols-outlined text-3xl text-outline">credit_card</span>
+          </div>
+          <div class="px-3 pb-2 flex items-center justify-between">
+            <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Takecard</span>
+            <a href="/takecard.png" download class="text-on-surface-variant hover:text-on-surface transition-colors">
+              <span class="material-symbols-outlined text-sm">download</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Hace tu magia -->
+    <section class="rounded-[2rem] bg-gradient-to-br from-primary to-secondary p-6 text-center space-y-2">
+      <p class="text-4xl">✨</p>
+      <h2 class="font-headline text-xl font-extrabold text-on-primary">¡Hacé tu magia!</h2>
+      <p class="text-on-primary/80 text-sm leading-relaxed">Creá tu video con el logo de Takenos y contá tu experiencia con la Takecard. Una vez listo, compartí el link acá abajo y <strong class="text-on-primary">te realizamos el pago en minutos.</strong></p>
+    </section>
+
+    <!-- 5. Input link -->
+    <section class="bg-surface-container rounded-[2rem] p-5 space-y-4">
+      <div>
+        <h3 class="font-headline text-base font-bold">Ingresá el link de tu video</h3>
+        <p class="text-on-surface-variant text-xs mt-1">Pegá el link de tu publicación una vez que la subiste.</p>
+      </div>
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">link</span>
+        <input id="content-link-input" type="url"
+          placeholder="https://..."
+          class="w-full bg-surface-container-highest border border-outline-variant/20 rounded-2xl py-4 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder-outline"/>
+      </div>
+      <!-- Cómo obtener el link -->
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-surface-container-highest rounded-2xl p-3 space-y-2">
+          <p class="text-xs font-bold flex items-center gap-1">🎵 TikTok</p>
+          <ol class="text-on-surface-variant text-xs space-y-0.5 list-none leading-relaxed">
+            <li>1. Abrí tu video</li>
+            <li>2. Tocá <strong>···</strong></li>
+            <li>3. <strong>Copiar link</strong></li>
+          </ol>
+        </div>
+        <div class="bg-surface-container-highest rounded-2xl p-3 space-y-2">
+          <p class="text-xs font-bold flex items-center gap-1">📸 Instagram Reel</p>
+          <ol class="text-on-surface-variant text-xs space-y-0.5 list-none leading-relaxed">
+            <li>1. Abrí tu Reel</li>
+            <li>2. Tocá <strong>···</strong></li>
+            <li>3. <strong>Copiar link</strong></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Botón obtener recompensa -->
+    <div class="pb-4">
+      <button onclick="submitContentLink()"
+        class="w-full bg-primary text-on-primary py-5 rounded-[1.5rem] font-headline font-bold text-lg shadow-lg shadow-primary/30 active:scale-95 transition-all flex items-center justify-center gap-3">
+        <span class="material-symbols-outlined">payments</span>
+        Obtener recompensa
+      </button>
+    </div>
+
+  </main>
+
+  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#fff7fc]/80 backdrop-blur-xl z-50 rounded-t-[2rem] shadow-[0_-8px_24px_rgba(59,45,66,0.04)]">
+    <div onclick="goTo(1)" class="flex flex-col items-center text-[#3b2d42]/60 px-5 py-2 cursor-pointer"><span class="material-symbols-outlined mb-1">hub</span><span class="text-[10px] uppercase tracking-widest font-medium">Inicio</span></div>
+    <div onclick="goTo(6)" class="flex flex-col items-center text-[#3b2d42]/60 px-5 py-2 cursor-pointer"><span class="material-symbols-outlined mb-1">payments</span><span class="text-[10px] uppercase tracking-widest font-medium">Ganancias</span></div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 4 · SUBIR Y VERIFICAR                                             -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="screen-4" class="screen min-h-screen">
+  <header class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
+    <div class="flex items-center gap-4">
+      <span onclick="goTo(3)" class="material-symbols-outlined text-primary hover:bg-surface-container-highest p-2 rounded-full cursor-pointer active:scale-95">arrow_back</span>
+      <img src="/Logo takenos- paleta principal_violeta.png" alt="Takenos" class="h-10 w-auto object-contain"/>
+    </div>
+    <span class="material-symbols-outlined text-on-background p-2">notifications</span>
+  </header>
+
+  <main class="pt-20 pb-32 px-4 max-w-lg mx-auto space-y-5">
+
+    <!-- FORMULARIO -->
+    <div id="s4-form">
+
+      <!-- Encabezado celebratorio -->
+      <section class="relative overflow-hidden rounded-[2rem] bg-on-background p-6 space-y-2 mb-5">
+        <div class="absolute inset-0 pixel-pattern opacity-5 pointer-events-none" style="color:#fff"></div>
+        <div class="relative z-10 flex items-center gap-2 mb-1">
+          <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1;">celebration</span>
+          <span class="font-label text-primary text-[0.6875rem] font-bold uppercase tracking-[0.2em]">Último paso</span>
+        </div>
+        <h1 class="relative z-10 font-headline text-xl font-bold text-surface leading-snug">¡Gracias por compartir tu reel!</h1>
+        <p class="relative z-10 text-surface/70 text-sm leading-relaxed">Colocá tu Taketag, apretá Enviar y recibí tu recompensa en minutos.</p>
+      </section>
+
+      <!-- Card de taketag -->
+      <section class="bg-surface-container-lowest rounded-[2rem] p-6 shadow-[0_12px_32px_rgba(59,45,66,0.06)] space-y-5">
+
+        <!-- Input -->
+        <div class="space-y-2">
+          <label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1">Tu Taketag</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-black text-base select-none">@</span>
+            <input id="input-taketag-s4"
+              class="w-full bg-surface-container-low rounded-xl py-3 pl-9 pr-4 text-on-surface font-medium border-none focus:ring-2 focus:ring-primary/20 outline-none placeholder:text-outline-variant"
+              placeholder="tu.taketag" type="text"/>
+          </div>
+        </div>
+
+        <!-- Dónde encontrarlo -->
+        <div class="bg-primary/5 rounded-2xl p-4 flex gap-3 items-start">
+          <span class="material-symbols-outlined text-primary mt-0.5 flex-shrink-0 text-xl">info</span>
+          <div>
+            <p class="text-sm font-bold text-on-surface mb-1">¿Dónde está mi Taketag?</p>
+            <p class="text-xs text-on-surface-variant leading-relaxed">
+              Abrí la app de <strong>Takenos</strong> → tocá tu foto de perfil en <strong>Inicio</strong>. Tu Taketag aparece debajo de tu nombre, empezando con <strong>@</strong>.
+            </p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Botón enviar -->
+      <div class="pt-2">
+        <button id="s4-submit-btn" onclick="submitReward()"
+          class="w-full bg-primary text-on-primary py-5 rounded-[1.5rem] font-headline font-bold text-lg shadow-lg shadow-primary/30 active:scale-95 transition-all flex items-center justify-center gap-3">
+          <span class="material-symbols-outlined">send</span>
+          Enviar y recibir recompensa
+        </button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 5 · GRACIAS                                                       -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="screen-5" class="screen min-h-screen">
+  <main class="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+
+    <!-- Fondo pixel decorativo -->
+    <div class="absolute inset-0 pixel-grid opacity-20 pointer-events-none"></div>
+
+    <!-- Ícono animado -->
+    <div class="relative mb-8">
+      <div class="w-28 h-28 rounded-full bg-primary/10 flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary" style="font-size:64px;font-variation-settings:'FILL' 1;">favorite</span>
+      </div>
+      <!-- anillo pulsante -->
+      <div class="absolute inset-0 rounded-full border-2 border-primary/30 animate-ping"></div>
+    </div>
+
+    <!-- Texto principal -->
+    <h1 class="font-headline text-3xl font-bold text-on-surface mb-3 leading-tight">
+      ¡Muchas gracias! 🎉
+    </h1>
+    <p class="text-on-surface-variant text-base leading-relaxed max-w-xs mx-auto mb-8">
+      En minutos recibirás tu recompensa en tu cuenta de Takenos.
+    </p>
+
+    <!-- Resumen -->
+    <div class="w-full max-w-sm bg-surface-container-lowest rounded-[2rem] p-6 shadow-[0_12px_32px_rgba(59,45,66,0.06)] space-y-4 mb-10">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-on-surface-variant">Taketag</span>
+        <span id="s5-tag" class="font-bold text-primary">–</span>
+      </div>
+      <div class="h-px bg-outline-variant/30"></div>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-on-surface-variant">Recompensa</span>
+        <span id="s5-amount" class="font-bold text-on-surface">–</span>
+      </div>
+      <div class="h-px bg-outline-variant/30"></div>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-on-surface-variant">Estado</span>
+        <span class="font-bold flex items-center gap-1" style="color:#16a34a">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1;">check_circle</span>
+          Procesando
+        </span>
+      </div>
+    </div>
+
+    <!-- Branding -->
+    <img src="/Logo takenos- paleta principal_violeta.png" alt="Takenos" class="h-6 w-auto object-contain opacity-40"/>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 6 · GANANCIAS                                                     -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="screen-6" class="screen min-h-screen">
+  <header class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
+    <img src="/Logo takenos- paleta principal_violeta.png" alt="Takenos" class="h-10 w-auto object-contain"/>
+    <span class="material-symbols-outlined text-on-background p-2">notifications</span>
+  </header>
+
+  <main class="pt-20 pb-32 px-4 max-w-lg mx-auto space-y-5">
+
+    <section class="pt-2">
+      <h1 class="font-headline text-2xl font-bold text-on-surface">Mis ganancias</h1>
+      <p class="text-on-surface-variant text-sm mt-1">Historial de campañas enviadas.</p>
+    </section>
+
+    <!-- Lista de submissions -->
+    <div id="earnings-list" class="space-y-4">
+      <!-- spinner inicial -->
+      <div id="earnings-spinner" class="flex justify-center py-12">
+        <span class="spinner"></span>
+      </div>
+    </div>
+
+  </main>
+
+  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#fff7fc]/80 backdrop-blur-xl z-50 rounded-t-[2rem] shadow-[0_-8px_24px_rgba(59,45,66,0.04)]">
+    <div onclick="goTo(1)" class="flex flex-col items-center text-[#3b2d42]/60 px-5 py-2 cursor-pointer"><span class="material-symbols-outlined mb-1">hub</span><span class="text-[10px] uppercase tracking-widest font-medium">Inicio</span></div>
+    <div class="flex flex-col items-center bg-[#f0dcf7] text-[#6d23f9] rounded-2xl px-5 py-2"><span class="material-symbols-outlined mb-1" style="font-variation-settings:'FILL' 1;">payments</span><span class="text-[10px] uppercase tracking-widest font-medium">Ganancias</span></div>
+  </nav>
+</div>
+
+<!-- ─── JAVASCRIPT ─────────────────────────────────────────────────────────── -->
+<script>
+const API = '';
+
+// ── State ──────────────────────────────────────────────────────────────────
+const state = {
+  userId: localStorage.getItem('takenos_user_id') || null,
+  userName: localStorage.getItem('takenos_user_name') || null,
+  taketag: localStorage.getItem('takenos_taketag') || null,
+  igUsername: null,
+  igData: null,
+};
+
+// ── Navigation ─────────────────────────────────────────────────────────────
+function goTo(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const next = document.getElementById('screen-' + n);
+  next.classList.add('active');
+  next.classList.remove('fade-in');
+  void next.offsetWidth;
+  next.classList.add('fade-in');
+  window.scrollTo(0, 0);
+  if (n === 3) {
+    generateScript();
+    const rewardEl = document.getElementById('campaign-reward');
+    if (rewardEl && state.campaignReward) {
+      rewardEl.textContent = ' $' + state.campaignReward;
+    }
+  }
+  if (n === 4) {
+    const tagInput = document.getElementById('input-taketag-s4');
+    if (tagInput && state.taketag) tagInput.value = state.taketag;
+  }
+  if (n === 6) loadEarnings();
+}
+
+// ── Ganancias ──────────────────────────────────────────────────────────────
+async function loadEarnings() {
+  const list = document.getElementById('earnings-list');
+  list.innerHTML = '<div id="earnings-spinner" class="flex justify-center py-12"><span class="spinner"></span></div>';
+
+  try {
+    // buscar por taketag si ya lo ingresó, o traer todos si es admin/test
+    const tag = state.taketag || state.lastTagetag || '';
+    const url = tag ? `${API}/api/earnings?taketag=${encodeURIComponent(tag)}` : `${API}/api/earnings`;
+    const res = await fetch(url);
+    const { submissions } = await res.json();
+
+    if (!submissions || submissions.length === 0) {
+      list.innerHTML = `
+        <div class="flex flex-col items-center py-16 text-center">
+          <span class="material-symbols-outlined text-5xl text-outline-variant mb-4">inbox</span>
+          <p class="text-on-surface-variant text-sm">Todavía no hay envíos registrados.</p>
+        </div>`;
+      return;
+    }
+
+    const statusColor = { 'En proceso': '#16a34a', 'Pendiente': '#d97706', 'Pagado': '#6d23f9' };
+
+    list.innerHTML = submissions.map(s => {
+      const date = new Date(s.submitted_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' });
+      const status = s.status || 'En proceso';
+      const color = statusColor[status] || '#3b2d42';
+      const amount = s.offer_amount ? `$${s.offer_amount} USD` : '–';
+      return `
+        <div class="bg-surface-container-lowest rounded-[2rem] p-5 shadow-[0_8px_24px_rgba(59,45,66,0.06)] space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1;">photo_camera</span>
+              </div>
+              <div>
+                <p class="font-bold text-sm text-on-surface">@${s.taketag}</p>
+                <p class="text-[10px] text-on-surface-variant uppercase tracking-widest">${date}</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold px-3 py-1 rounded-full" style="background:${color}18;color:${color}">${status}</span>
+          </div>
+          <div class="h-px bg-outline-variant/20"></div>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-on-surface-variant">Recompensa</span>
+            <span class="font-bold text-on-surface">${amount}</span>
+          </div>
+          ${s.content_link ? `
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-on-surface-variant">Contenido</span>
+            <a href="${s.content_link}" target="_blank" class="font-bold text-primary flex items-center gap-1">
+              Ver reel <span class="material-symbols-outlined text-sm">open_in_new</span>
+            </a>
+          </div>` : ''}
+        </div>`;
+    }).join('');
+  } catch (err) {
+    list.innerHTML = `<p class="text-center text-sm text-error py-8">Error al cargar: ${err.message}</p>`;
+  }
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function setStatus(msg) {
+  const el = document.getElementById('connect-status');
+  if (el) {
+    el.textContent = msg;
+    el.classList.remove('hidden');
+  }
+  showToast(msg);
+}
+
+function showError(msg) {
+  const el = document.getElementById('connect-status');
+  if (el) {
+    el.textContent = msg;
+    el.classList.remove('hidden');
+    el.classList.add('text-red-500');
+    setTimeout(() => el.classList.remove('text-red-500'), 3000);
+  }
+  showToast(msg);
+}
+
+async function loadRealMetrics(userId, userName) {
+  try {
+    await new Promise(r => setTimeout(r, 2000));
+
+    const res = await fetch(`/api/instagram/${userId}`);
+    const data = await res.json();
+    if (!res.ok || data.error) throw new Error('Sin datos');
+
+    const followers = data.followers || 0;
+    const posts = data.posts || 1;
+    const following = data.following || 0;
+
+    // Calcular engagement estimado
+    const engRate = followers > 0 ? ((posts * 50) / followers * 100).toFixed(1) : '–';
+    const reach = followers > 0 ? Math.round(followers * 0.2).toLocaleString() : '–';
+    const followersStr = followers >= 1000 ? (followers/1000).toFixed(1)+'k' : String(followers);
+
+    // Calcular oferta: $1–$10 para 50–10.000 seguidores, WhatsApp si >10.000
+    const WA_NUMBER = '5492644609587';
+    let offer = null;
+    let whatsappDeal = false;
+
+    if (followers < 50) {
+      offer = null; // Sin oferta
+    } else if (followers >= 10000) {
+      whatsappDeal = true;
+    } else {
+      // Escala lineal: 50 seg → $1, 10.000 seg → $10
+      offer = 1 + ((followers - 50) / (10000 - 50)) * 9;
+    }
+
+    // Determinar nicho desde bio
+    const bio = (data.bio || '').toLowerCase();
+    let niche = 'Lifestyle';
+    if (bio.includes('ceo') || bio.includes('founder') || bio.includes('tech')) niche = 'Tech/Negocios';
+    else if (bio.includes('fit') || bio.includes('gym') || bio.includes('sport')) niche = 'Fitness';
+    else if (bio.includes('food') || bio.includes('chef') || bio.includes('cocina')) niche = 'Gastronomía';
+    else if (bio.includes('travel') || bio.includes('viaje')) niche = 'Viajes';
+    else if (bio.includes('fashion') || bio.includes('moda')) niche = 'Moda';
+
+    renderMetrics(userName, {
+      followers: followersStr,
+      engagement: engRate + '%',
+      reach: reach,
+      niche: niche,
+      offer: whatsappDeal ? 'DEAL' : (offer !== null ? offer.toFixed(2) : '–'),
+      whatsappDeal,
+      waNumber: WA_NUMBER,
+      waMessage: encodeURIComponent(`Hola! Soy ${data.full_name || userName} (@${data.username}) y tengo ${followersStr} seguidores. Me interesa un deal especial con Takenos.`),
+      tooSmall: followers < 50,
+      summary: followers < 50
+        ? 'Necesitás al menos 50 seguidores para recibir una oferta.'
+        : whatsappDeal
+        ? `¡Perfil premium! Con ${followersStr} seguidores tenés derecho a un deal especial. Hablanos por WhatsApp.`
+        : `${data.full_name} (@${data.username}) tiene ${followersStr} seguidores verificados por Phyllo. Perfil de ${niche}.`,
+      image_url: data.image_url
+    });
+
+  } catch(err) {
+    renderMetrics(userName, {
+      followers: '–', engagement: '–', reach: '–', niche: '–',
+      offer: '–',
+      summary: 'Cuenta conectada. Métricas sincronizando...'
+    });
+  }
+}
+
+// ── Cargar métricas de TikTok ──────────────────────────────────────────────
+async function loadTikTokMetrics(userId, userName) {
+  try {
+    await new Promise(r => setTimeout(r, 2000));
+
+    const res = await fetch(`/api/tiktok/${userId}`);
+    const data = await res.json();
+    if (!res.ok || data.error) throw new Error('Sin datos');
+
+    const followers = data.followers || 0;
+    const posts = data.posts || 1;
+    const followersStr = followers >= 1000 ? (followers/1000).toFixed(1)+'k' : String(followers);
+    const engRate = followers > 0 ? ((posts * 80) / followers * 100).toFixed(1) : '–';
+    const reach = followers > 0 ? Math.round(followers * 0.3).toLocaleString() : '–';
+
+    const WA_NUMBER = '5492644609587';
+    let offer = null;
+    let whatsappDeal = false;
+
+    if (followers < 50) {
+      offer = null;
+    } else if (followers >= 10000) {
+      whatsappDeal = true;
+    } else {
+      offer = 1 + ((followers - 50) / (10000 - 50)) * 9;
+    }
+
+    const bio = (data.bio || '').toLowerCase();
+    let niche = 'Lifestyle';
+    if (bio.includes('ceo') || bio.includes('founder') || bio.includes('tech')) niche = 'Tech/Negocios';
+    else if (bio.includes('fit') || bio.includes('gym')) niche = 'Fitness';
+    else if (bio.includes('food') || bio.includes('chef')) niche = 'Gastronomía';
+    else if (bio.includes('travel') || bio.includes('viaje')) niche = 'Viajes';
+    else if (bio.includes('fashion') || bio.includes('moda')) niche = 'Moda';
+
+    renderMetrics(userName, {
+      followers: followersStr,
+      engagement: engRate + '%',
+      reach: reach,
+      niche: niche,
+      offer: whatsappDeal ? 'DEAL' : (offer !== null ? offer.toFixed(2) : '–'),
+      whatsappDeal,
+      waNumber: WA_NUMBER,
+      waMessage: encodeURIComponent(`Hola! Soy ${data.full_name || userName} (@${data.username}) y tengo ${followersStr} seguidores en TikTok. Me interesa un deal especial con Takenos.`),
+      tooSmall: followers < 50,
+      summary: followers < 50
+        ? 'Necesitás al menos 50 seguidores para recibir una oferta.'
+        : whatsappDeal
+        ? `¡Perfil premium! Con ${followersStr} seguidores en TikTok tenés derecho a un deal especial. Hablanos por WhatsApp.`
+        : `${data.full_name || userName} (@${data.username}) tiene ${followersStr} seguidores en TikTok. Perfil de ${niche}.`,
+      image_url: data.image_url,
+      platform: 'TikTok'
+    });
+
+  } catch(err) {
+    renderMetrics(userName, {
+      followers: '–', engagement: '–', reach: '–', niche: '–',
+      offer: '–',
+      summary: 'Cuenta TikTok conectada. Métricas sincronizando...',
+      platform: 'TikTok'
+    });
+  }
+}
+
+// ── Guardar Taketag ────────────────────────────────────────────────────────
+function onTaketagInput(value) {
+  const btn = document.getElementById('btn-save-taketag');
+  const icon = document.getElementById('save-taketag-icon');
+  if (value.trim()) {
+    btn.classList.replace('bg-surface-container-highest', 'bg-primary');
+    icon.classList.replace('text-on-surface-variant', 'text-on-primary');
+  } else {
+    btn.classList.replace('bg-primary', 'bg-surface-container-highest');
+    icon.classList.replace('text-on-primary', 'text-on-surface-variant');
+  }
+}
+
+function saveTaketag() {
+  const tag = document.getElementById('input-name').value.trim().replace('@', '');
+  if (!tag) { showToast('Ingresá tu Taketag primero'); return; }
+  state.taketag = tag;
+  state.userName = tag;
+  localStorage.setItem('takenos_taketag', tag);
+  localStorage.setItem('takenos_user_name', tag);
+  const icon = document.getElementById('save-taketag-icon');
+  icon.textContent = 'bookmark_added';
+  showToast('¡Taketag guardado!');
+}
+
+// ── Screen 1: Conectar Perfil ──────────────────────────────────────────────
+async function connectInstagram() {
+  const taketag = document.getElementById('input-name').value.trim().replace('@', '');
+  const username = document.getElementById('input-username').value.trim().replace('@', '');
+
+  if (!taketag) { showToast('Ingresá tu Taketag primero'); return; }
+  if (!username) { showToast('Ingresá tu usuario de Instagram'); return; }
+
+  const btn = document.getElementById('btn-connect-ig');
+  const btnText = document.getElementById('btn-connect-ig-text');
+  btn.disabled = true;
+  btnText.innerHTML = '<span class="spinner mr-2"></span>Analizando perfil...';
+
+  try {
+    const res = await fetch(`${API}/api/instagram?username=${encodeURIComponent(username)}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Error al obtener perfil');
+
+    state.userName = taketag;
+    state.taketag = taketag;
+    state.igUsername = data.username || username;
+    localStorage.setItem('takenos_user_name', taketag);
+    localStorage.setItem('takenos_taketag', taketag);
+
+    goTo(2);
+
+    const followers = data.followers || 0;
+    const WA_NUMBER = '5492644609587';
+    let offer = null, whatsappDeal = false, tooSmall = false;
+
+    if (followers < 50) {
+      tooSmall = true;
+    } else if (followers >= 10000) {
+      whatsappDeal = true;
+    } else {
+      offer = (1 + ((followers - 50) / (10000 - 50)) * 9).toFixed(2);
+    }
+
+    const waMsg = encodeURIComponent(`Hola! Soy ${name} (@${data.username}), tengo ${followers} seguidores y quiero saber más sobre la campaña de Takenos.`);
+
+    renderMetrics(data.username || username, {
+      followers: followers.toLocaleString(),
+      engagement: data.pct_fake !== undefined ? `${(100 - data.pct_fake).toFixed(0)}% real` : '–',
+      reach: '–',
+      niche: '–',
+      offer,
+      whatsappDeal,
+      tooSmall,
+      waNumber: WA_NUMBER,
+      waMessage: waMsg,
+    });
+
+  } catch (err) {
+    showToast('Error: ' + err.message);
+    btn.disabled = false;
+    btnText.textContent = 'Analizar perfil';
+  }
+}
+
+// ── Conectar TikTok ────────────────────────────────────────────────────────
+const TIKTOK_PLATFORM_ID = 'de55aeec-0dc8-4119-bf90-16b3d1f0c987';
+
+async function connectTikTok() {
+  const btn = document.getElementById('btn-tiktok');
+  const btnText = document.getElementById('btn-tiktok-text');
+
+  btn.disabled = true;
+  btnText.textContent = 'Conectando...';
+
+  try {
+    // Si no hay userId, crear un usuario nuevo en Phyllo
+    if (!state.userId) {
+      const name = document.getElementById('name-input')?.value?.trim() || 'Usuario Takenos';
+      const external_id = 'takenos_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+      const userRes = await fetch(`${API}/api/create-user`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, external_id }),
+      });
+      const user = await userRes.json();
+      if (!userRes.ok) throw new Error(user.error?.message || JSON.stringify(user.error));
+      state.userId = user.id;
+      localStorage.setItem('takenos_user_id', user.id);
+      localStorage.setItem('takenos_user_name', name);
+    }
+  } catch (err) {
+    showToast('Error creando usuario: ' + err.message);
+    btn.disabled = false;
+    btnText.textContent = 'Vincular TikTok';
+    return;
+  }
+
+  try {
+    const tokenRes = await fetch(`${API}/api/sdk-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: state.userId }),
+    });
+    const tokenData = await tokenRes.json();
+    if (!tokenRes.ok) throw new Error(tokenData.error?.message || JSON.stringify(tokenData.error));
+
+    const phylloConnect = PhylloConnect.initialize({
+      clientDisplayName: 'Takenos',
+      environment: 'staging',
+      userId: state.userId,
+      token: tokenData.sdk_token,
+      workPlatformId: TIKTOK_PLATFORM_ID,
+      callback: (type, data) => { console.log('Phyllo TikTok callback:', type, data); },
+    });
+
+    phylloConnect.on('accountConnected', async (accountId, workPlatformId, userId) => {
+      btnText.textContent = 'Obteniendo métricas...';
+      goTo(2);
+      await loadTikTokMetrics(userId, state.userName || 'Usuario');
+      document.getElementById('tiktok-status').textContent = 'Vinculado';
+      document.getElementById('tiktok-status').classList.replace('text-error', 'text-primary');
+      btn.disabled = false;
+      btnText.textContent = 'TikTok vinculado ✓';
+    });
+
+    phylloConnect.on('accountDisconnected', (accountId, workPlatformId, userId) => {
+      document.getElementById('tiktok-status').textContent = 'No vinculado';
+      document.getElementById('tiktok-status').classList.replace('text-primary', 'text-error');
+      btnText.textContent = 'Vincular TikTok';
+    });
+
+    phylloConnect.on('tokenExpired', (userId) => {
+      showToast('Token expirado. Recargá la página.');
+    });
+
+    phylloConnect.on('exit', (reason, userId) => {
+      btn.disabled = false;
+      btnText.textContent = 'Vincular TikTok';
+    });
+
+    phylloConnect.open();
+
+  } catch (err) {
+    showToast('Error: ' + err.message);
+    btn.disabled = false;
+    btnText.textContent = 'Vincular TikTok';
+  }
+}
+
+// ── Screen 2: Cargar datos de Instagram ────────────────────────────────────
+async function loadInstagramData() {
+  goTo(2);
+  document.getElementById('scan-title').textContent = 'Escaneando...';
+
+  // Esperar un momento para que Phyllo procese la cuenta
+  await new Promise(r => setTimeout(r, 2000));
+
+  try {
+    const res = await fetch(`${API}/api/instagram/${state.userId}`);
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      // Si no hay datos aún, mostrar valores de demo
+      renderAnalysis({ followers: '—', engagement_rate: '—', reach: '—', full_name: state.userName });
+      showToast('Perfil conectado. Datos en sincronización.');
+    } else {
+      state.igData = data;
+      renderAnalysis(data);
+    }
+  } catch {
+    renderAnalysis({ followers: '—', engagement_rate: '—', reach: '—', full_name: state.userName });
+  }
+
+  document.getElementById('scan-title').textContent = 'Análisis completo';
+  document.getElementById('scan-spinner').classList.remove('animate-spin');
+}
+
+function renderAnalysis(data) {
+  const fmt = (v) => v != null && v !== '—' ? v : '—';
+  const fmtK = (v) => {
+    if (v == null || v === '—') return '—';
+    return v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v;
+  };
+  const fmtPct = (v) => v != null && v !== '—' ? parseFloat(v).toFixed(1) + '%' : '—';
+
+  document.getElementById('stat-followers').textContent = fmtK(data.followers);
+  document.getElementById('stat-engagement').textContent = fmtPct(data.engagement_rate);
+  document.getElementById('stat-reach').textContent = fmtK(data.reach);
+  document.getElementById('offer-name').textContent = data.full_name || data.username || state.userName || 'Perfil Conectado';
+
+  // Calcular oferta basada en seguidores (mock)
+  const followers = parseInt(data.followers) || 0;
+  const offer = followers > 0 ? (followers * 0.001).toFixed(2) : '12.50';
+  document.getElementById('stat-offer').textContent = offer;
+}
+
+// ── Screen 4: Verificación de contenido ───────────────────────────────────
+let verifyTimer = null;
+
+function onUrlInput(value) {
+  clearTimeout(verifyTimer);
+  const step1 = document.getElementById('verify-step-1');
+  const step2 = document.getElementById('verify-step-2');
+  const step3 = document.getElementById('verify-step-3');
+  const btn = document.getElementById('btn-submit');
+
+  step1.classList.add('opacity-40'); step2.classList.add('opacity-40'); step3.classList.add('opacity-40');
+  btn.disabled = true; btn.classList.add('opacity-50', 'cursor-not-allowed');
+
+  if (!value.trim()) return;
+
+  const isInstagram = /instagram\.com\/(reel|p)\//i.test(value);
+  const isTikTok = /tiktok\.com\/@.+\/video\//i.test(value);
+
+  if (!isInstagram && !isTikTok) return;
+
+  // Step 1: formato reconocido
+  setTimeout(() => step1.classList.remove('opacity-40'), 400);
+
+  // Step 2: verificando...
+  verifyTimer = setTimeout(() => {
+    step2.classList.remove('opacity-40');
+    // Step 3: hashtags
+    setTimeout(() => {
+      step3.classList.remove('opacity-40');
+      btn.disabled = false;
+      btn.classList.remove('opacity-50', 'cursor-not-allowed');
+    }, 1500);
+  }, 1200);
+}
+
+function submitContent() {
+  // legacy – no se usa, mantenido por compatibilidad
+}
+
+async function submitReward() {
+  const tag = document.getElementById('input-taketag-s4').value.trim();
+  if (!tag) { showToast('Ingresá tu Taketag primero.'); return; }
+
+  const btn = document.getElementById('s4-submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+
+  const contentLink = sessionStorage.getItem('content_link') || '';
+  const offerAmount = state.campaignReward || '–';
+  const userId = state.userId || '';
+
+  try {
+    const res = await fetch('/api/submit-reward', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ taketag: tag, content_link: contentLink, offer_amount: offerAmount, user_id: userId }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Error al guardar');
+
+    // Poblar screen 5 y navegar
+    document.getElementById('s5-tag').textContent = '@' + tag;
+    state.taketag = tag;
+    state.lastTagetag = tag;
+    localStorage.setItem('takenos_taketag', tag);
+    document.getElementById('s5-amount').textContent = offerAmount !== '–' ? '$' + offerAmount + ' USD' : '–';
+    goTo(5);
+  } catch (err) {
+    showToast('Error: ' + err.message);
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar y recibir recompensa';
+  }
+}
+
+// ── Copiar guion ──────────────────────────────────────────────────────────
+// ── Enviar link de contenido ───────────────────────────────────────────────
+function submitContentLink() {
+  const input = document.getElementById('content-link-input');
+  const url = input.value.trim();
+
+  const isTikTok   = /tiktok\.com\/@.+\/video\//i.test(url);
+  const isInstagram = /instagram\.com\/(reel|p)\//i.test(url);
+
+  if (!url) {
+    showToast('Pegá el link de tu video primero.');
+    return;
+  }
+  if (!isTikTok && !isInstagram) {
+    showToast('El link no parece válido. Pegá la URL de tu publicación.');
+    return;
+  }
+
+  // Guardar y pasar a la pantalla de verificación
+  sessionStorage.setItem('content_link', url);
+  goTo(4);
+}
+
+// ── Guiones hookeros para la Takecard ─────────────────────────────────────
+const HOOKS = [
+  "¿Sabías que cada vez que pagás con tu tarjeta local en el exterior estás perdiendo hasta un 10% en comisiones?",
+  "Esta tarjeta me cambió la vida cuando viajé a Europa y pagué en euros sin ningún cargo extra.",
+  "POV: Sos el único del grupo que no paga recargo cuando comprás en dólares online.",
+  "Me tardé 5 minutos en activarla y ahora pago internacionalmente como si estuviera en casa.",
+  "Si comprás en Amazon, Airbnb o Spotify, esto te interesa.",
+  "Nadie me contó esto cuando empecé a comprar afuera. Te lo cuento yo.",
+  "La diferencia entre pagar con tu tarjeta del banco y con la Takecard es brutal, mirá.",
+  "Probé todas las tarjetas del mercado para compras internacionales. Esta ganó.",
+];
+
+const BODIES = [
+  "La Takecard de Takenos te deja pagar en cualquier moneda sin comisiones ocultas. La activás desde la app, la cargás con lo que necesitás y listo.",
+  "Con la Takecard podés pagar en más de 150 países al tipo de cambio real, sin el plus que te cobra tu banco de toda la vida.",
+  "La cargo desde la app de Takenos, elijo cuánto poner, y cuando pago en el exterior solo me descuenta exactamente lo que gasté. Sin sorpresas.",
+  "Es una Visa Platinum internacional que funciona donde cualquier Visa funciona. Solo que sin las comisiones de siempre.",
+  "La diferencia es simple: tu banco te cobra un porcentaje por cada compra en dólares. La Takecard no.",
+];
+
+const CTAS = [
+  "Entrá al link de mi bio y pedí la tuya. Es gratis y la tenés en minutos.",
+  "Si querés pagar como local en cualquier parte del mundo, el link está en mi bio.",
+  "Dejá de regalarle plata al banco. Link en bio para conseguir la Takecard.",
+  "Seguime para más tips y entrá al link de mi bio para activar la tuya hoy.",
+  "Primera compra internacional sin comisión. Link en bio.",
+];
+
+function generateScript() {
+  const hook = HOOKS[Math.floor(Math.random() * HOOKS.length)];
+  const body = BODIES[Math.floor(Math.random() * BODIES.length)];
+  const cta  = CTAS[Math.floor(Math.random() * CTAS.length)];
+  document.getElementById('script-hook').textContent = `"${hook}"`;
+  document.getElementById('script-body').textContent = `"${body}"`;
+  document.getElementById('script-cta').textContent  = `"${cta}"`;
+}
+
+// Generar guion inicial al cargar screen 3
+document.addEventListener('DOMContentLoaded', generateScript);
+
+function copyScript() {
+  const script = `Hook: "¿Cansado de que las comisiones se coman tus ganancias de freelance? Mira esto..."\n\nBody: "Con Takenos, recibo mis pagos en dólares y los retiro a mi moneda local en minutos. Sin vueltas, sin letra chica y con la mejor tasa del mercado."\n\nCTA: "Hacé clic en el link de mi bio y empezá a cobrar como un profesional."`;
+  navigator.clipboard?.writeText(script).then(() => showToast('Guion copiado al portapapeles'));
+}
+
+// ── Pre-fill taketag con el username conectado ────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Pre-fill taketag en home si ya estaba guardado
+  if (state.taketag) {
+    const input = document.getElementById('input-name');
+    if (input) {
+      input.value = state.taketag;
+      onTaketagInput(state.taketag);
+      // mostrar bookmark_added si ya estaba guardado
+      const icon = document.getElementById('save-taketag-icon');
+      if (icon) icon.textContent = 'bookmark_added';
+    }
+  }
+});
+
+function renderMetrics(username, m) {
+  document.getElementById('scan-title').textContent = '¡Análisis Completo!';
+  document.getElementById('analysis-subtitle').textContent = 'Perfil evaluado exitosamente.';
+  document.getElementById('scan-spinner').style.opacity = '0';
+
+  const userEl = document.getElementById('analyzed-user');
+  userEl.textContent = '@' + username;
+  userEl.classList.remove('hidden');
+
+  document.getElementById('stat-followers').textContent = m.followers || '–';
+  document.getElementById('stat-engagement').textContent = m.engagement || '–';
+  document.getElementById('stat-reach').textContent = m.reach || '–';
+  document.getElementById('stat-niche').textContent = m.niche || '–';
+  document.getElementById('offer-name').textContent = username || 'Creador';
+
+  const btn = document.getElementById('accept-btn');
+
+  if (m.whatsappDeal) {
+    // +10k seguidores → botón WhatsApp
+    document.getElementById('stat-offer').textContent = '★';
+    btn.disabled = false;
+    btn.classList.remove('opacity-50', 'pointer-events-none');
+    btn.innerHTML = '<span class="material-symbols-outlined">chat</span> Hablar por WhatsApp';
+    btn.onclick = () => window.open(`https://wa.me/${m.waNumber}?text=${m.waMessage}`, '_blank');
+  } else if (m.tooSmall) {
+    // < 50 seguidores → sin oferta
+    document.getElementById('stat-offer').textContent = '–';
+    btn.disabled = true;
+    btn.classList.add('opacity-50', 'pointer-events-none');
+    btn.innerHTML = 'Insuficientes seguidores';
+  } else {
+    // Oferta normal $1–$10
+    document.getElementById('stat-offer').textContent = m.offer || '–';
+    btn.disabled = false;
+    btn.classList.remove('opacity-50', 'pointer-events-none');
+    btn.innerHTML = 'Aceptar y Continuar <span class="material-symbols-outlined">arrow_forward</span>';
+    state.campaignReward = m.offer;
+    btn.onclick = () => goTo(3);
+  }
+
+  if (m.summary) {
+    document.getElementById('ai-summary-text').textContent = m.summary;
+    document.getElementById('ai-summary-box').classList.remove('hidden');
+  }
+}
+</script>
+</body>
+</html>
