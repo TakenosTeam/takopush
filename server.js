@@ -126,8 +126,15 @@ app.get('/api/instagram', async (req, res) => {
       }
     );
 
+    // La API puede devolver un error de Meta dentro del body (HTTP 200 con meta.code)
+    if (raw?.meta?.code && raw.meta.code !== 200) {
+      const metaCode = raw.meta.code;
+      if (metaCode === 404) return res.status(404).json({ error: 'Perfil de Instagram no encontrado. Verificá que el usuario sea correcto y que la cuenta sea pública.' });
+      return res.status(400).json({ error: `Error al obtener el perfil (código ${metaCode}). Intentá de nuevo.` });
+    }
+
     const d = raw?.data;
-    if (!d) return res.status(404).json({ error: 'Perfil no encontrado' });
+    if (!d) return res.status(404).json({ error: 'Perfil no encontrado. Verificá que el usuario sea correcto y que la cuenta sea pública.' });
 
     const result = {
       username: d.screenName,
@@ -164,7 +171,11 @@ app.get('/api/instagram', async (req, res) => {
 
     res.json(result);
   } catch (err) {
-    res.status(500).json({ error: err.response?.data || err.message });
+    const metaCode = err.response?.data?.meta?.code;
+    if (metaCode === 404) {
+      return res.status(404).json({ error: 'Perfil de Instagram no encontrado. Verificá que el usuario sea correcto y que la cuenta sea pública.' });
+    }
+    res.status(500).json({ error: err.response?.data?.meta?.error_message || err.message });
   }
 });
 
