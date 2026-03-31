@@ -189,7 +189,7 @@ app.get('/api/tiktok', async (req, res) => {
     {
       url: 'https://tiktok-scraper7.p.rapidapi.com/user/info',
       host: 'tiktok-scraper7.p.rapidapi.com',
-      params: { uniqueId: clean },
+      params: { unique_id: clean },
       parse: (raw) => {
         const user = raw?.data?.user;
         const stats = raw?.data?.stats;
