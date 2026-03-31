@@ -314,12 +314,11 @@
 <!-- SCREEN 2 · ANÁLISIS Y OFERTA                                             -->
 <!-- ══════════════════════════════════════════════════════════════════════════ -->
 <div id="screen-2" class="screen min-h-screen">
-  <nav class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
-    <div class="flex items-center gap-4">
-      <span onclick="goTo(1)" class="material-symbols-outlined text-primary hover:bg-surface-container-highest p-2 rounded-xl cursor-pointer">arrow_back</span>
-      <img src="/takepush-logo.svg" alt="takepush" class="h-8 w-auto object-contain"/>
-    </div>
-    <span class="material-symbols-outlined text-on-background p-2">notifications</span>
+  <nav class="fixed top-0 w-full flex items-center px-4 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)] gap-3">
+    <button onclick="goTo(1)" class="w-10 h-10 rounded-xl flex items-center justify-center text-primary active:bg-surface-container-highest active:scale-90 transition-all">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <img src="/takepush-logo.svg" alt="takepush" class="h-8 w-auto object-contain"/>
   </nav>
 
   <main class="pt-24 pb-32 px-6 max-w-lg mx-auto min-h-screen relative overflow-hidden">
@@ -352,7 +351,7 @@
           <span class="material-symbols-outlined text-primary">query_stats</span>
         </div>
       </div>
-      <div class="grid grid-cols-2 gap-4">
+      <div id="stats-grid" class="grid grid-cols-2 gap-4">
         <div class="bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
           <span class="text-on-surface-variant text-[11px] font-medium block mb-2">Tasa de engagement</span>
           <div class="flex items-end gap-1">
@@ -366,14 +365,14 @@
             <span id="stat-followers" class="text-2xl font-headline font-bold text-on-background">—</span>
           </div>
         </div>
-        <div class="bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
+        <div id="stat-reach-box" class="hidden bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
           <span class="text-on-surface-variant text-[11px] font-medium block mb-2">Alcance promedio</span>
           <div class="flex items-end gap-1">
             <span id="stat-reach" class="text-2xl font-headline font-bold text-on-background">—</span>
             <span class="text-on-surface-variant text-[10px] pb-1">/sem</span>
           </div>
         </div>
-        <div class="bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
+        <div id="stat-niche-box" class="hidden bg-surface rounded-3xl p-5 shadow-sm border border-outline-variant/10">
           <span class="text-on-surface-variant text-[11px] font-medium block mb-2">Nicho</span>
           <span id="stat-niche" class="text-lg font-headline font-bold text-on-background">—</span>
         </div>
@@ -397,18 +396,11 @@
         </div>
         <p class="text-on-primary/60 text-xs font-medium">Calculado basado en tu huella digital</p>
       </div>
-      <div class="relative z-10 mt-8 space-y-3">
+      <div class="relative z-10 mt-8">
         <div class="flex items-center justify-between bg-white/10 backdrop-blur-md p-4 rounded-2xl">
           <div class="flex items-center gap-3">
             <span class="material-symbols-outlined text-primary-fixed">verified</span>
             <span class="text-sm font-medium" id="offer-name">Perfil Conectado</span>
-          </div>
-          <span class="material-symbols-outlined text-sm opacity-60" style="font-variation-settings:'FILL' 1;">check_circle</span>
-        </div>
-        <div class="flex items-center justify-between bg-white/10 backdrop-blur-md p-4 rounded-2xl">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary-fixed">history_edu</span>
-            <span class="text-sm font-medium">Historial de Campañas</span>
           </div>
           <span class="material-symbols-outlined text-sm opacity-60" style="font-variation-settings:'FILL' 1;">check_circle</span>
         </div>
@@ -434,12 +426,11 @@
 <!-- SCREEN 3 · RECURSOS Y GUION                                              -->
 <!-- ══════════════════════════════════════════════════════════════════════════ -->
 <div id="screen-3" class="screen min-h-screen">
-  <header class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
-    <div class="flex items-center gap-4">
-      <span onclick="goTo(2)" class="material-symbols-outlined text-primary hover:bg-surface-container-highest p-2 rounded-full cursor-pointer active:scale-95">arrow_back</span>
-      <img src="/takepush-logo.svg" alt="takepush" class="h-8 w-auto object-contain"/>
-    </div>
-    <span class="material-symbols-outlined text-primary p-2">notifications</span>
+  <header class="fixed top-0 w-full flex items-center px-4 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)] gap-3">
+    <button onclick="goTo(2)" class="w-10 h-10 rounded-xl flex items-center justify-center text-primary active:bg-surface-container-highest active:scale-90 transition-all">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <img src="/takepush-logo.svg" alt="takepush" class="h-8 w-auto object-contain"/>
   </header>
 
   <main class="pt-20 pb-32 px-4 max-w-lg mx-auto space-y-5">
@@ -513,9 +504,9 @@
             src="/takenos-logo.svg" alt="Logo Takenos"/>
           <div class="px-3 pb-2 flex items-center justify-between">
             <span class="text-[10px] font-bold text-white/50 uppercase tracking-wider">Logo</span>
-            <a href="/takenos-logo.svg" download class="text-white/50 hover:text-white transition-colors">
+            <button onclick="downloadAsset('/takenos-logo.svg','takenos-logo.svg')" class="text-white/50 active:text-white transition-colors p-1">
               <span class="material-symbols-outlined text-sm">download</span>
-            </a>
+            </button>
           </div>
         </div>
         <!-- Takecard -->
@@ -528,9 +519,9 @@
           </div>
           <div class="px-3 pb-2 flex items-center justify-between">
             <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Takecard</span>
-            <a href="/takecard.png" download class="text-on-surface-variant hover:text-on-surface transition-colors">
+            <button onclick="downloadAsset('/takecard.png','takecard.png')" class="text-on-surface-variant active:text-on-surface transition-colors p-1">
               <span class="material-symbols-outlined text-sm">download</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -597,12 +588,11 @@
 <!-- SCREEN 4 · SUBIR Y VERIFICAR                                             -->
 <!-- ══════════════════════════════════════════════════════════════════════════ -->
 <div id="screen-4" class="screen min-h-screen">
-  <header class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
-    <div class="flex items-center gap-4">
-      <span onclick="goTo(3)" class="material-symbols-outlined text-primary hover:bg-surface-container-highest p-2 rounded-full cursor-pointer active:scale-95">arrow_back</span>
-      <img src="/takepush-logo.svg" alt="takepush" class="h-8 w-auto object-contain"/>
-    </div>
-    <span class="material-symbols-outlined text-on-background p-2">notifications</span>
+  <header class="fixed top-0 w-full flex items-center px-4 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)] gap-3">
+    <button onclick="goTo(3)" class="w-10 h-10 rounded-xl flex items-center justify-center text-primary active:bg-surface-container-highest active:scale-90 transition-all">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <img src="/takepush-logo.svg" alt="takepush" class="h-8 w-auto object-contain"/>
   </header>
 
   <main class="pt-20 pb-32 px-4 max-w-lg mx-auto space-y-5">
@@ -718,9 +708,8 @@
 <!-- SCREEN 6 · GANANCIAS                                                     -->
 <!-- ══════════════════════════════════════════════════════════════════════════ -->
 <div id="screen-6" class="screen min-h-screen">
-  <header class="fixed top-0 w-full flex justify-between items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
+  <header class="fixed top-0 w-full flex items-center px-6 h-16 bg-[#fff7fc]/80 backdrop-blur-xl z-50 shadow-[0_12px_32px_rgba(59,45,66,0.06)]">
     <img src="/takepush-logo.svg" alt="takepush" class="h-8 w-auto object-contain"/>
-    <span class="material-symbols-outlined text-on-background p-2">notifications</span>
   </header>
 
   <main class="pt-20 pb-32 px-4 max-w-lg mx-auto space-y-5">
@@ -1261,6 +1250,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// ── Descarga compatible con iOS ───────────────────────────────────────────
+async function downloadAsset(url, filename) {
+  try {
+    showToast('Descargando...');
+    const res = await fetch(url);
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(blobUrl); a.remove(); }, 1000);
+  } catch(e) {
+    // Fallback: abrir en nueva pestaña para que el usuario guarde manualmente
+    window.open(url, '_blank');
+  }
+}
+
 function renderMetrics(username, m) {
   document.getElementById('scan-title').textContent = '¡Análisis Completo!';
   document.getElementById('analysis-subtitle').textContent = 'Perfil evaluado exitosamente.';
@@ -1272,9 +1280,23 @@ function renderMetrics(username, m) {
 
   document.getElementById('stat-followers').textContent = m.followers || '–';
   document.getElementById('stat-engagement').textContent = m.engagement || '–';
-  document.getElementById('stat-reach').textContent = m.reach || '–';
-  document.getElementById('stat-niche').textContent = m.niche || '–';
   document.getElementById('offer-name').textContent = username || 'Creador';
+
+  // Alcance y nicho: solo mostrar si tienen datos reales
+  const reachBox = document.getElementById('stat-reach-box');
+  const nicheBox = document.getElementById('stat-niche-box');
+  if (m.reach && m.reach !== '–') {
+    document.getElementById('stat-reach').textContent = m.reach;
+    reachBox.classList.remove('hidden');
+  } else {
+    reachBox.classList.add('hidden');
+  }
+  if (m.niche && m.niche !== '–' && m.niche !== 'Lifestyle') {
+    document.getElementById('stat-niche').textContent = m.niche;
+    nicheBox.classList.remove('hidden');
+  } else {
+    nicheBox.classList.add('hidden');
+  }
 
   const btn = document.getElementById('accept-btn');
 
