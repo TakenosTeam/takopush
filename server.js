@@ -202,6 +202,7 @@ app.get('/api/tiktok', async (req, res) => {
           followers: stats?.followerCount || 0,
           following: stats?.followingCount || 0,
           posts: stats?.videoCount || 0,
+          heart_count: stats?.heartCount || 0,
           image_url: user.avatarLarger || user.avatarMedium,
           id: user.id,
         };
@@ -223,6 +224,7 @@ app.get('/api/tiktok', async (req, res) => {
           followers: stats?.followerCount || 0,
           following: stats?.followingCount || 0,
           posts: stats?.videoCount || 0,
+          heart_count: stats?.heartCount || 0,
           image_url: user.avatarLarger || user.avatarMedium,
           id: user.id,
         };

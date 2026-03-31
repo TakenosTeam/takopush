@@ -102,7 +102,7 @@
       <div class="relative z-10 p-6 flex items-center gap-4">
         <div class="text-4xl flex-shrink-0">💸</div>
         <div>
-          <p class="font-headline font-black text-white text-lg leading-tight">Hasta $50 USD por video</p>
+          <p class="font-headline font-black text-white text-lg leading-tight">Hasta $100 USD por video</p>
           <p class="text-white/65 text-xs mt-1 leading-relaxed">Monetizá tu audiencia de Instagram o TikTok y cobrá en tu cuenta Takenos.</p>
         </div>
       </div>
@@ -948,6 +948,30 @@ function saveTaketagAndContinue() {
   goTo('1b');
 }
 
+/// ── Reward formula ─────────────────────────────────────────────────────────
+// Base: logarithmic scale ($8 at 1k → $50 at 100k → $100 at 500k)
+// Proxy engagement bonus (TikTok only): heartCount / (videoCount × followers)
+//   proxy > 0.08  → +50%   proxy 0.04–0.08 → +25%   otherwise → +0%
+function calcReward(followers, heartCount, videoCnt) {
+  if (!followers || followers < 1000) return null;
+  let base;
+  if (followers < 100000) {
+    // log10(followers/1000) goes 0→2 in range 1k→100k
+    base = 8 + (Math.log10(followers / 1000) / 2) * 42;
+  } else if (followers < 500000) {
+    base = 50 + ((followers - 100000) / 400000) * 50;
+  } else {
+    return null; // WhatsApp deal
+  }
+  let bonus = 0;
+  if (heartCount && videoCnt > 0 && followers > 0) {
+    const proxyEng = heartCount / (videoCnt * followers);
+    if (proxyEng > 0.08) bonus = 0.50;
+    else if (proxyEng > 0.04) bonus = 0.25;
+  }
+  return (base * (1 + bonus)).toFixed(2);
+}
+
 // ── Screen 1c: Conectar Instagram ──────────────────────────────────────────
 async function connectInstagram() {
   const username = document.getElementById('input-username').value.trim().replace('@', '');
@@ -976,12 +1000,13 @@ async function connectInstagram() {
     const WA_NUMBER = '5492644609587';
     let offer = null, whatsappDeal = false, tooSmall = false;
 
+    const offerCalc = calcReward(followers);
     if (followers < 1000) {
       tooSmall = true;
-    } else if (followers >= 100000) {
+    } else if (followers >= 500000 || offerCalc === null) {
       whatsappDeal = true;
     } else {
-      offer = (5 + ((followers - 1000) / (100000 - 1000)) * 45).toFixed(2);
+      offer = offerCalc;
     }
 
     const waMsg = encodeURIComponent(`Hola! Soy @${data.username} y tengo ${followers} seguidores. Me interesa un deal especial con Takenos.`);
@@ -1032,12 +1057,13 @@ async function connectTikTokByUsername() {
     const WA_NUMBER = '5492644609587';
     let offer = null, whatsappDeal = false, tooSmall = false;
 
+    const offerCalc = calcReward(followers, data.heart_count || 0, data.posts || 0);
     if (followers < 1000) {
       tooSmall = true;
-    } else if (followers >= 100000) {
+    } else if (followers >= 500000 || offerCalc === null) {
       whatsappDeal = true;
     } else {
-      offer = (5 + ((followers - 1000) / (100000 - 1000)) * 45).toFixed(2);
+      offer = offerCalc;
     }
 
     const waMsg = encodeURIComponent(`Hola! Soy @${data.username} y tengo ${followersStr} seguidores en TikTok. Me interesa un deal especial con Takenos.`);
@@ -1161,12 +1187,13 @@ async function loadRealMetrics(userId, userName) {
     let offer = null;
     let whatsappDeal = false;
 
+    const offerCalcIg = calcReward(followers);
     if (followers < 1000) {
       offer = null;
-    } else if (followers >= 100000) {
+    } else if (followers >= 500000 || offerCalcIg === null) {
       whatsappDeal = true;
     } else {
-      offer = 5 + ((followers - 1000) / (100000 - 1000)) * 45;
+      offer = parseFloat(offerCalcIg);
     }
 
     const bio = (data.bio || '').toLowerCase();
@@ -1223,12 +1250,13 @@ async function loadTikTokMetrics(userId, userName) {
     let offer = null;
     let whatsappDeal = false;
 
+    const offerCalcTt = calcReward(followers, data.heart_count || 0, posts);
     if (followers < 1000) {
       offer = null;
-    } else if (followers >= 100000) {
+    } else if (followers >= 500000 || offerCalcTt === null) {
       whatsappDeal = true;
     } else {
-      offer = 5 + ((followers - 1000) / (100000 - 1000)) * 45;
+      offer = parseFloat(offerCalcTt);
     }
 
     const bio = (data.bio || '').toLowerCase();
