@@ -287,8 +287,9 @@
 
   async function updateStatus(newStatus) {
     if (!selectedSubId) return;
+    const idToUpdate = selectedSubId;
     closeModal();
-    await fetch(`${API}/api/admin/submissions/${selectedSubId}`, {
+    await fetch(`${API}/api/admin/submissions/${idToUpdate}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
       body: JSON.stringify({ status: newStatus }),
