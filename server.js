@@ -272,6 +272,60 @@ app.get('/api/earnings', async (req, res) => {
   res.json({ submissions: data || [] });
 });
 
+// ─── ADMIN middleware ────────────────────────────────────────────────────────
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'takenos2024';
+
+function adminAuth(req, res, next) {
+  const token = req.headers['x-admin-token'] || req.query.token;
+  if (token !== ADMIN_PASSWORD) {
+    return res.status(401).json({ error: 'No autorizado' });
+  }
+  next();
+}
+
+// ─── GET /api/admin/submissions ──────────────────────────────────────────────
+app.get('/api/admin/submissions', adminAuth, async (_req, res) => {
+  const { data, error } = await supabase
+    .from('submissions')
+    .select('*')
+    .order('submitted_at', { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ submissions: data || [] });
+});
+
+// ─── PATCH /api/admin/submissions/:id ────────────────────────────────────────
+app.patch('/api/admin/submissions/:id', adminAuth, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const allowed = ['pending', 'approved', 'paid', 'rejected'];
+  if (!allowed.includes(status)) {
+    return res.status(400).json({ error: 'status inválido' });
+  }
+  const { data, error } = await supabase
+    .from('submissions')
+    .update({ status })
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true, submission: data });
+});
+
+// ─── GET /api/admin/users ────────────────────────────────────────────────────
+app.get('/api/admin/users', adminAuth, async (_req, res) => {
+  const { data, error } = await supabase
+    .from('phyllo_users')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ users: data || [] });
+});
+
+// ─── GET /admin ───────────────────────────────────────────────────────────────
+app.get('/admin', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
 // ─── Health check ────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
