@@ -204,16 +204,16 @@
       </button>
 
       <!-- TikTok -->
-      <button id="btn-tiktok-platform" onclick="connectTikTok()" class="platform-card w-full rounded-[1.75rem] overflow-hidden shadow-lg shadow-black/20 text-left" style="background: linear-gradient(135deg, #111 0%, #2a2a2a 100%);">
+      <button onclick="goTo('1d')" class="platform-card w-full rounded-[1.75rem] overflow-hidden shadow-lg shadow-black/20 text-left" style="background: linear-gradient(135deg, #111 0%, #2a2a2a 100%);">
         <div class="p-6 flex items-center gap-4">
           <div class="w-14 h-14 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
             <span class="material-symbols-outlined text-white text-[2rem]">music_note</span>
           </div>
           <div class="flex-1">
             <h3 class="font-headline font-bold text-xl text-white leading-tight">TikTok</h3>
-            <p id="tiktok-status-1b" class="text-white/50 text-sm mt-0.5">Videos cortos</p>
+            <p class="text-white/50 text-sm mt-0.5">Videos cortos</p>
           </div>
-          <span id="tiktok-arrow-1b" class="material-symbols-outlined text-white/80 text-xl">arrow_forward_ios</span>
+          <span class="material-symbols-outlined text-white/80 text-xl">arrow_forward_ios</span>
         </div>
       </button>
 
@@ -298,6 +298,79 @@
       <button id="btn-connect-ig" onclick="connectInstagram()"
         class="w-full bg-primary text-on-primary font-headline font-bold py-5 rounded-[1.5rem] shadow-lg shadow-primary/25 flex items-center justify-center gap-2 active:scale-95 transition-all text-lg mb-4">
         <span id="btn-connect-ig-text">Analizar perfil</span>
+        <span class="material-symbols-outlined">search</span>
+      </button>
+
+      <p class="flex items-center justify-center gap-1.5 text-[11px] text-on-surface-variant">
+        <span class="material-symbols-outlined text-[14px]">lock_open</span>
+        Solo funciona con cuentas <strong>públicas</strong>
+      </p>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 1d · TIKTOK USERNAME                                               -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="screen-1d" class="screen min-h-screen flex flex-col">
+
+  <header class="fixed top-0 w-full flex items-center px-4 h-16 bg-[#fff7fc]/90 backdrop-blur-xl z-50 border-b border-outline-variant/10 gap-3">
+    <button onclick="goTo('1b')" class="w-10 h-10 rounded-xl flex items-center justify-center text-primary active:bg-surface-container-highest active:scale-90 transition-all">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <img src="/takepush-logo.svg" alt="takepush" class="h-8 w-auto object-contain"/>
+  </header>
+
+  <main class="flex flex-col pt-20 pb-16 px-6 max-w-xl mx-auto w-full min-h-screen">
+
+    <!-- Steps -->
+    <div class="flex items-center justify-center gap-2 pt-4 mb-8">
+      <div class="step-dot done"></div>
+      <div class="step-dot done"></div>
+      <div class="step-dot active"></div>
+    </div>
+
+    <!-- Title with TikTok icon -->
+    <div class="mb-7 slide-up">
+      <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-5 shadow-lg shadow-black/30" style="background: linear-gradient(135deg, #111, #2a2a2a);">
+        <span class="material-symbols-outlined text-white text-[2rem]">music_note</span>
+      </div>
+      <p class="text-[10px] font-bold uppercase tracking-widest text-primary mb-2">Paso 3 de 3</p>
+      <h1 class="font-headline font-bold text-2xl text-on-surface leading-snug mb-2">Tu usuario<br>de TikTok</h1>
+      <p class="text-sm text-on-surface-variant leading-relaxed">Ingresá tu @usuario y analizamos tu perfil para calcular tu oferta personalizada.</p>
+    </div>
+
+    <!-- Input card -->
+    <div class="bg-surface-container-low rounded-[2rem] p-6 shadow-[0_12px_32px_rgba(59,45,66,0.07)]">
+      <label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 ml-1">Nombre de usuario</label>
+      <div class="flex items-center bg-surface-container-lowest rounded-xl p-1 focus-within:ring-2 focus-within:ring-primary/25 mb-4">
+        <span class="pl-4 pr-1 text-on-surface-variant font-medium">@</span>
+        <input id="input-tiktok-username"
+          class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-semibold placeholder:text-outline-variant py-3.5 outline-none text-base"
+          placeholder="tu_usuario" type="text"
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+          onkeydown="if(event.key==='Enter') connectTikTokByUsername()"/>
+      </div>
+      <p id="connect-tiktok-status" class="hidden text-center text-xs font-medium text-on-surface-variant"></p>
+
+      <div class="flex items-start gap-2 bg-primary/5 rounded-2xl p-3">
+        <span class="material-symbols-outlined text-primary text-[16px] flex-shrink-0 mt-0.5">lightbulb</span>
+        <p class="text-[11px] text-on-surface-variant leading-relaxed">
+          El usuario es el que aparece con <strong class="text-on-surface">@</strong> en tu perfil de TikTok. Ejemplo: <strong class="text-primary">@maria.gomez</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- Spacer -->
+    <div class="flex-1 min-h-8"></div>
+
+    <!-- Analyze button -->
+    <div class="py-8">
+      <button id="btn-connect-tt" onclick="connectTikTokByUsername()"
+        class="w-full font-headline font-bold py-5 rounded-[1.5rem] shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-all text-lg mb-4 text-white"
+        style="background: linear-gradient(135deg, #111, #2a2a2a); box-shadow: 0 8px 24px rgba(0,0,0,0.25);">
+        <span id="btn-connect-tt-text">Analizar perfil</span>
         <span class="material-symbols-outlined">search</span>
       </button>
 
@@ -929,7 +1002,60 @@ async function connectInstagram() {
   }
 }
 
-// ── Conectar TikTok ────────────────────────────────────────────────────────
+// ── TikTok por username (RapidAPI) ─────────────────────────────────────────
+async function connectTikTokByUsername() {
+  const username = document.getElementById('input-tiktok-username').value.trim().replace('@', '');
+
+  if (!state.taketag) { showToast('Ingresá tu Taketag primero'); goTo(1); return; }
+  if (!username) { showToast('Ingresá tu usuario de TikTok'); return; }
+
+  const btn = document.getElementById('btn-connect-tt');
+  const btnText = document.getElementById('btn-connect-tt-text');
+  btn.disabled = true;
+  btnText.innerHTML = '<span class="spinner mr-2" style="border-top-color:#fff;border-color:rgba(255,255,255,0.2)"></span>Analizando perfil...';
+
+  try {
+    const res = await fetch(`${API}/api/tiktok?username=${encodeURIComponent(username)}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Error al obtener perfil');
+
+    goTo(2);
+
+    const followers = data.followers || 0;
+    const followersStr = followers >= 1000 ? (followers/1000).toFixed(1)+'k' : String(followers);
+    const WA_NUMBER = '5492644609587';
+    let offer = null, whatsappDeal = false, tooSmall = false;
+
+    if (followers < 1000) {
+      tooSmall = true;
+    } else if (followers >= 100000) {
+      whatsappDeal = true;
+    } else {
+      offer = (5 + ((followers - 1000) / (100000 - 1000)) * 45).toFixed(2);
+    }
+
+    const waMsg = encodeURIComponent(`Hola! Soy @${data.username} y tengo ${followersStr} seguidores en TikTok. Me interesa un deal especial con Takenos.`);
+
+    renderMetrics(data.username || username, {
+      followers: followersStr,
+      engagement: '–',
+      reach: '–',
+      niche: '–',
+      offer,
+      whatsappDeal,
+      tooSmall,
+      waNumber: WA_NUMBER,
+      waMessage: waMsg,
+    });
+
+  } catch (err) {
+    showToast('Error: ' + err.message);
+    btn.disabled = false;
+    btnText.textContent = 'Analizar perfil';
+  }
+}
+
+// ── Conectar TikTok via Phyllo (legacy) ────────────────────────────────────
 const TIKTOK_PLATFORM_ID = 'de55aeec-0dc8-4119-bf90-16b3d1f0c987';
 
 async function connectTikTok() {
@@ -987,16 +1113,16 @@ async function connectTikTok() {
       if (statusEl) statusEl.textContent = 'TikTok vinculado ✓';
     });
 
-    phylloConnect.on('accountDisconnected', () => {
+    phylloConnect.on('accountDisconnected', (accountId, workPlatformId, userId) => {
       btn.disabled = false;
       if (statusEl) statusEl.textContent = 'Videos cortos';
     });
 
-    phylloConnect.on('tokenExpired', () => {
+    phylloConnect.on('tokenExpired', (userId) => {
       showToast('Token expirado. Recargá la página.');
     });
 
-    phylloConnect.on('exit', () => {
+    phylloConnect.on('exit', (reason, userId) => {
       btn.disabled = false;
       if (statusEl) statusEl.textContent = 'Videos cortos';
     });

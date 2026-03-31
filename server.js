@@ -168,8 +168,71 @@ app.get('/api/instagram', async (req, res) => {
   }
 });
 
+// ─── GET /api/tiktok?username=xxx ───────────────────────────────────────────
+// Obtiene métricas de TikTok via RapidAPI por username (sin OAuth)
+app.get('/api/tiktok', async (req, res) => {
+  const { username } = req.query;
+  if (!username) return res.status(400).json({ error: 'username requerido' });
+
+  const clean = username.replace('@', '').trim();
+
+  try {
+    const { data: raw } = await axios.get(
+      'https://tiktok-scraper7.p.rapidapi.com/user/info',
+      {
+        params: { uniqueId: clean },
+        headers: {
+          'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+          'X-RapidAPI-Host': 'tiktok-scraper7.p.rapidapi.com',
+        },
+      }
+    );
+
+    const user = raw?.data?.user;
+    const stats = raw?.data?.stats;
+    if (!user) return res.status(404).json({ error: 'Perfil no encontrado' });
+
+    const result = {
+      username: user.uniqueId,
+      full_name: user.nickname,
+      bio: user.signature,
+      is_verified: user.verified,
+      followers: stats?.followerCount || 0,
+      following: stats?.followingCount || 0,
+      posts: stats?.videoCount || 0,
+      likes: stats?.heartCount || 0,
+      image_url: user.avatarLarger || user.avatarMedium,
+    };
+
+    // Guardar en Supabase
+    await supabase.from('tiktok_profiles').upsert({
+      phyllo_user_id: user.id || clean,
+      username: result.username,
+      full_name: result.full_name,
+      bio: result.bio,
+      is_verified: result.is_verified,
+      is_business: false,
+      followers: result.followers,
+      following: result.following,
+      posts: result.posts,
+      image_url: result.image_url,
+      scanned_at: new Date().toISOString(),
+    }, { onConflict: 'phyllo_user_id' });
+
+    await supabase.from('scan_history').insert({
+      phyllo_user_id: user.id || clean,
+      platform: 'tiktok',
+      followers: result.followers,
+    });
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.response?.data || err.message });
+  }
+});
+
 // ─── GET /api/tiktok/:user_id ────────────────────────────────────────────────
-// Returns TikTok identity and engagement data for the given Phyllo user.
+// Returns TikTok identity and engagement data for the given Phyllo user (legacy).
 const TIKTOK_PLATFORM_ID = 'de55aeec-0dc8-4119-bf90-16b3d1f0c987';
 
 app.get('/api/tiktok/:user_id', async (req, res) => {
