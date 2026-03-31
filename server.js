@@ -176,37 +176,88 @@ app.get('/api/tiktok', async (req, res) => {
 
   const clean = username.replace('@', '').trim();
 
-  try {
-    const { data: raw } = await axios.get(
-      'https://tiktok-scraper7.p.rapidapi.com/user/info',
-      {
-        params: { uniqueId: clean },
+  // Helper para extraer mensaje de error legible
+  const extractError = (err) => {
+    const d = err.response?.data;
+    if (!d) return err.message;
+    if (typeof d === 'string') return d;
+    return d.message || d.error || d.detail || JSON.stringify(d);
+  };
+
+  // Intentar con tiktok-scraper7 primero, luego fallback a tiktok-api23
+  const APIS = [
+    {
+      url: 'https://tiktok-scraper7.p.rapidapi.com/user/info',
+      host: 'tiktok-scraper7.p.rapidapi.com',
+      params: { uniqueId: clean },
+      parse: (raw) => {
+        const user = raw?.data?.user;
+        const stats = raw?.data?.stats;
+        if (!user) return null;
+        return {
+          username: user.uniqueId,
+          full_name: user.nickname,
+          bio: user.signature,
+          is_verified: user.verified,
+          followers: stats?.followerCount || 0,
+          following: stats?.followingCount || 0,
+          posts: stats?.videoCount || 0,
+          image_url: user.avatarLarger || user.avatarMedium,
+          id: user.id,
+        };
+      },
+    },
+    {
+      url: 'https://tiktok-api23.p.rapidapi.com/api/user/info',
+      host: 'tiktok-api23.p.rapidapi.com',
+      params: { uniqueId: clean },
+      parse: (raw) => {
+        const user = raw?.userInfo?.user;
+        const stats = raw?.userInfo?.stats;
+        if (!user) return null;
+        return {
+          username: user.uniqueId,
+          full_name: user.nickname,
+          bio: user.signature,
+          is_verified: user.verified,
+          followers: stats?.followerCount || 0,
+          following: stats?.followingCount || 0,
+          posts: stats?.videoCount || 0,
+          image_url: user.avatarLarger || user.avatarMedium,
+          id: user.id,
+        };
+      },
+    },
+  ];
+
+  let result = null;
+  let lastError = 'No se pudo obtener el perfil de TikTok';
+
+  for (const api of APIS) {
+    try {
+      const { data: raw } = await axios.get(api.url, {
+        params: api.params,
         headers: {
           'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'tiktok-scraper7.p.rapidapi.com',
+          'X-RapidAPI-Host': api.host,
         },
-      }
-    );
+        timeout: 8000,
+      });
+      result = api.parse(raw);
+      if (result) break;
+    } catch (err) {
+      console.error(`TikTok API ${api.host} failed:`, extractError(err));
+      lastError = extractError(err);
+    }
+  }
 
-    const user = raw?.data?.user;
-    const stats = raw?.data?.stats;
-    if (!user) return res.status(404).json({ error: 'Perfil no encontrado' });
+  if (!result) {
+    return res.status(404).json({ error: lastError });
+  }
 
-    const result = {
-      username: user.uniqueId,
-      full_name: user.nickname,
-      bio: user.signature,
-      is_verified: user.verified,
-      followers: stats?.followerCount || 0,
-      following: stats?.followingCount || 0,
-      posts: stats?.videoCount || 0,
-      likes: stats?.heartCount || 0,
-      image_url: user.avatarLarger || user.avatarMedium,
-    };
-
-    // Guardar en Supabase
+  try {
     await supabase.from('tiktok_profiles').upsert({
-      phyllo_user_id: user.id || clean,
+      phyllo_user_id: result.id || clean,
       username: result.username,
       full_name: result.full_name,
       bio: result.bio,
@@ -220,15 +271,15 @@ app.get('/api/tiktok', async (req, res) => {
     }, { onConflict: 'phyllo_user_id' });
 
     await supabase.from('scan_history').insert({
-      phyllo_user_id: user.id || clean,
+      phyllo_user_id: result.id || clean,
       platform: 'tiktok',
       followers: result.followers,
     });
-
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ error: err.response?.data || err.message });
+  } catch (dbErr) {
+    console.error('Supabase save error:', dbErr.message);
   }
+
+  res.json(result);
 });
 
 // ─── GET /api/tiktok/:user_id ────────────────────────────────────────────────

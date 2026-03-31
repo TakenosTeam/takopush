@@ -963,7 +963,10 @@ async function connectInstagram() {
   try {
     const res = await fetch(`${API}/api/instagram?username=${encodeURIComponent(username)}`);
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Error al obtener perfil');
+    if (!res.ok) {
+      const msg = typeof data.error === 'string' ? data.error : JSON.stringify(data.error) || 'Error al obtener perfil';
+      throw new Error(msg);
+    }
 
     state.igUsername = data.username || username;
 
@@ -1017,7 +1020,10 @@ async function connectTikTokByUsername() {
   try {
     const res = await fetch(`${API}/api/tiktok?username=${encodeURIComponent(username)}`);
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Error al obtener perfil');
+    if (!res.ok) {
+      const msg = typeof data.error === 'string' ? data.error : JSON.stringify(data.error) || 'Error al obtener perfil';
+      throw new Error(msg);
+    }
 
     goTo(2);
 
