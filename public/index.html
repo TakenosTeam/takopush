@@ -178,6 +178,10 @@
             <span class="material-symbols-outlined text-[14px] flex-shrink-0">lock_open</span>
             Solo funciona con cuentas <strong>públicas</strong>. Las cuentas privadas no pueden ser analizadas.
           </p>
+          <p class="flex items-center gap-1.5 text-[11px] text-on-surface-variant bg-surface-container-highest rounded-xl px-3 py-2">
+            <span class="material-symbols-outlined text-[14px] flex-shrink-0">group</span>
+            Mínimo <strong>1.000 seguidores</strong> en Instagram o TikTok para recibir una oferta.
+          </p>
           <button id="btn-connect-ig" onclick="connectInstagram()" class="w-full bg-primary text-on-primary font-headline font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-95 transition-transform">
             <span id="btn-connect-ig-text">Analizar perfil</span>
             <span class="material-symbols-outlined text-sm">search</span>
@@ -797,18 +801,18 @@ async function loadRealMetrics(userId, userName) {
     const reach = followers > 0 ? Math.round(followers * 0.2).toLocaleString() : '–';
     const followersStr = followers >= 1000 ? (followers/1000).toFixed(1)+'k' : String(followers);
 
-    // Calcular oferta: $1–$10 para 50–10.000 seguidores, WhatsApp si >10.000
+    // Calcular oferta: $5–$50 para 1k–100k seguidores, WhatsApp si ≥100k
     const WA_NUMBER = '5492644609587';
     let offer = null;
     let whatsappDeal = false;
 
-    if (followers < 50) {
+    if (followers < 1000) {
       offer = null; // Sin oferta
-    } else if (followers >= 10000) {
+    } else if (followers >= 100000) {
       whatsappDeal = true;
     } else {
-      // Escala lineal: 50 seg → $1, 10.000 seg → $10
-      offer = 1 + ((followers - 50) / (10000 - 50)) * 9;
+      // Escala lineal: 1.000 seg → $5, 100.000 seg → $50
+      offer = 5 + ((followers - 1000) / (100000 - 1000)) * 45;
     }
 
     // Determinar nicho desde bio
@@ -829,12 +833,12 @@ async function loadRealMetrics(userId, userName) {
       whatsappDeal,
       waNumber: WA_NUMBER,
       waMessage: encodeURIComponent(`Hola! Soy ${data.full_name || userName} (@${data.username}) y tengo ${followersStr} seguidores. Me interesa un deal especial con Takenos.`),
-      tooSmall: followers < 50,
-      summary: followers < 50
-        ? 'Necesitás al menos 50 seguidores para recibir una oferta.'
+      tooSmall: followers < 1000,
+      summary: followers < 1000
+        ? 'Necesitás al menos 1.000 seguidores para recibir una oferta.'
         : whatsappDeal
         ? `¡Perfil premium! Con ${followersStr} seguidores tenés derecho a un deal especial. Hablanos por WhatsApp.`
-        : `${data.full_name} (@${data.username}) tiene ${followersStr} seguidores verificados por Phyllo. Perfil de ${niche}.`,
+        : `${data.full_name} (@${data.username}) tiene ${followersStr} seguidores. Perfil de ${niche}.`,
       image_url: data.image_url
     });
 
@@ -866,12 +870,12 @@ async function loadTikTokMetrics(userId, userName) {
     let offer = null;
     let whatsappDeal = false;
 
-    if (followers < 50) {
+    if (followers < 1000) {
       offer = null;
-    } else if (followers >= 10000) {
+    } else if (followers >= 100000) {
       whatsappDeal = true;
     } else {
-      offer = 1 + ((followers - 50) / (10000 - 50)) * 9;
+      offer = 5 + ((followers - 1000) / (100000 - 1000)) * 45;
     }
 
     const bio = (data.bio || '').toLowerCase();
@@ -891,9 +895,9 @@ async function loadTikTokMetrics(userId, userName) {
       whatsappDeal,
       waNumber: WA_NUMBER,
       waMessage: encodeURIComponent(`Hola! Soy ${data.full_name || userName} (@${data.username}) y tengo ${followersStr} seguidores en TikTok. Me interesa un deal especial con Takenos.`),
-      tooSmall: followers < 50,
-      summary: followers < 50
-        ? 'Necesitás al menos 50 seguidores para recibir una oferta.'
+      tooSmall: followers < 1000,
+      summary: followers < 1000
+        ? 'Necesitás al menos 1.000 seguidores para recibir una oferta.'
         : whatsappDeal
         ? `¡Perfil premium! Con ${followersStr} seguidores en TikTok tenés derecho a un deal especial. Hablanos por WhatsApp.`
         : `${data.full_name || userName} (@${data.username}) tiene ${followersStr} seguidores en TikTok. Perfil de ${niche}.`,
@@ -966,12 +970,12 @@ async function connectInstagram() {
     const WA_NUMBER = '5492644609587';
     let offer = null, whatsappDeal = false, tooSmall = false;
 
-    if (followers < 50) {
+    if (followers < 1000) {
       tooSmall = true;
-    } else if (followers >= 10000) {
+    } else if (followers >= 100000) {
       whatsappDeal = true;
     } else {
-      offer = (1 + ((followers - 50) / (10000 - 50)) * 9).toFixed(2);
+      offer = (5 + ((followers - 1000) / (100000 - 1000)) * 45).toFixed(2);
     }
 
     const waMsg = encodeURIComponent(`Hola! Soy ${name} (@${data.username}), tengo ${followers} seguidores y quiero saber más sobre la campaña de Takenos.`);
