@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none">
+  <!-- Ícono: flecha hacia arriba dentro de un cuadrado redondeado -->
+  <rect x="0" y="4" width="40" height="40" rx="10" fill="#6d23f9"/>
+  <path d="M20 30 L20 18 M20 18 L14 24 M20 18 L26 24" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Wordmark: "take" normal + "push" bold -->
+  <text x="52" y="31" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="400" fill="#1a1a2e" letter-spacing="-0.5">take</text>
+  <text x="99" y="31" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="#6d23f9" letter-spacing="-0.5">push</text>
+</svg>
