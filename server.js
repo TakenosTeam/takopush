@@ -17,10 +17,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const { PORT = 3001 } = process.env;
 
+const { PHYLLO_CLIENT_ID, PHYLLO_CLIENT_SECRET } = process.env;
+if (!PHYLLO_CLIENT_ID || !PHYLLO_CLIENT_SECRET) {
+  throw new Error('PHYLLO_CLIENT_ID and PHYLLO_CLIENT_SECRET must be set');
+}
+const phylloAuth = Buffer.from(`${PHYLLO_CLIENT_ID}:${PHYLLO_CLIENT_SECRET}`).toString('base64');
+
 const phyllo = axios.create({
   baseURL: 'https://api.staging.getphyllo.com/v1',
   headers: {
-    'Authorization': 'Basic NzhhYjM4NzMtMWViZC00MDgzLWJjMmItOGJlMzhhMmEzNzMwOjEwYmRmY2NmLTA2ZTMtNDMyNC1hZjM2LWVkYzk5YWIyYzAxZA==',
+    'Authorization': `Basic ${phylloAuth}`,
     'Content-Type': 'application/json',
   },
 });
@@ -400,7 +406,10 @@ app.get('/api/earnings', async (req, res) => {
 });
 
 // ─── ADMIN middleware ────────────────────────────────────────────────────────
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'takenos2024';
+const { ADMIN_PASSWORD } = process.env;
+if (!ADMIN_PASSWORD) {
+  throw new Error('ADMIN_PASSWORD must be set');
+}
 
 function adminAuth(req, res, next) {
   const token = req.headers['x-admin-token'] || req.query.token;
